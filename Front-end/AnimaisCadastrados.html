@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animais Cadastrados</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+        body{
+            margin: 0px;
+            padding: 0px;
+            font-family: "Inter", sans-serif;
+            display: flex;
+            flex-direction: row;
+        }
+
+        div#sidebar{
+            background-color: #D7F2FF;
+            width: 288px;
+            height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 0px 40px 40px 0px;
+        }
+
+        div#sidebar > a{
+            background-color: #36C3FF;
+            color: white;
+            text-decoration: none;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 80%;
+            height: 45px;
+
+            border-radius: 40px;
+            margin: 40px 0px 0px 0px;
+
+            font-family: "Inter", sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        div#containerAnimais{
+            width: 100%;
+            height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        div.cardAnimal{
+            flex-direction: row;
+            display: flex;
+            align-items: center;
+
+            background-color: white;
+            width: 80%;
+            height: 128px;
+
+            border-radius: 20px;
+            border-color: #AAAAAA;
+            border-width: 1px;
+            border-style: solid;
+
+            margin-top: 30px;
+            padding: 9px;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        img.fotoAnimal{
+            width: 125px;
+            height: 125px;
+
+            border-radius: 10px;
+            margin: 0px;
+        }
+
+        div.informacoesAnimal{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            margin-left: 20px;
+            
+        }
+
+        div.informacoesAnimal > h2{
+            font-family: 'Montserrat', sans-serif;
+            color: #36C3FF;
+
+            margin-top: 0px;
+            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        div.informacoesAnimal > p{
+            font-family: 'Inter', sans-serif;
+            color: #686868;
+            
+            margin: 0px;
+            font-size: 14px;
+            font-weight: regular;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <a href="#">Página Inicial</a>     
+        <a href="#">Painel de Gestão</a>
+        <a href="#">Cadastrar Animais</a>     
+        <a href="#">Animais Cadastrados</a>     
+        <a href="#">Adoções Recebidas</a>     
+        <a href="#">Editar perfil</a>     
+    </div>
+    <div id="containerAnimais">
+        <div class="cardAnimal">
+            <img class="fotoAnimal" src="imagens/DetalhesAnimal/cat1.jpeg" alt="Foto do animal">
+            <div class="informacoesAnimal">
+                <h2>Nome do Animal</h2>
+                <p>Sexo: Fêmea</p>
+                <p>Idade: 2 anos</p>
+                <p>Porte: Médio</p>
+                <p>Localização: Londrina - PR</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

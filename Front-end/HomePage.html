@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Italianno&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+        body{
+            margin: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        header{
+            background-color: #36C3FF;
+            width: 100%;
+        }
+
+        nav{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+        }
+
+        a{
+            text-decoration: none;
+            color: black;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        nav > a:hover{
+            text-decoration: underline;
+        }
+
+        nav > a > img{
+            height: 49px;
+            width: 73px;
+            padding: 50px 0px 50px 0px;
+        }
+
+        div#divInicial{
+            background-color: #36C3FF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+
+            width: 100%;
+            height: 435px;
+        }
+
+        h1.titPreto{
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            color: black;
+            text-decoration: underline;
+        }
+
+        p.pInfo{
+            font-family: 'Montserrat', sans-serif;
+            font-weight: normal;
+            font-size: 20px;
+            color: black;
+        }
+
+        div.divImagem{
+            background-image: url('imagens/pessoaEcachorro.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: red;
+            background-size: cover;
+            background-position-y: 80%;
+
+            margin: 0px auto;
+            margin-bottom: 84px;
+            display: flex;
+            justify-content: center;
+
+            border-radius: 100px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+            width: 1244px;
+            height: 512px;
+        }
+
+        .container{ 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            
+            
+            width: 50%;
+            color: white;
+        }
+
+        .cardContainer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 100%;
+            color: black;
+        }
+
+        .card{
+            background-color: rgba(255, 255, 255, 0.600);
+            display: flex;
+            text-align: center; 
+            flex-direction: column;
+            margin-bottom: 102px;
+            margin-top: 38px;
+            
+            border-radius: 20px;
+            width: 238px;
+            height: 228px;
+        }
+
+        h1.titBranco{
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: underline;
+        }
+
+        .containerGrid{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            justify-content: center;
+
+            width: 836px;
+            gap: 52px;
+
+            margin-bottom: 104px;
+        }
+
+        .item{
+            width: 100%;
+            height: 391px;
+
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cardGrid1{
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-image: url('imagens/ongimg.png');
+            height: 226px;
+
+            margin: 9px;
+            border-radius: 10px;
+        }
+        .cardGrid2{
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-image: url('imagens/abracoDog.png');
+            height: 226px;
+
+            margin: 9px;
+            border-radius: 10px;
+        }
+        .cardGrid3{
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-image: url('imagens/pessoas.png');
+            height: 226px;
+
+            margin: 9px;
+            border-radius: 10px;
+        }
+
+        h3.padraoEscritaCard{
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18;
+            font-weight: bold;
+            margin: 5px 0px 0px 9px;
+        }
+
+        p{
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            margin: 35px 0px 0px 9px;
+        }
+
+        a.botaoRegistre{
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+
+            background-color: #36C3FF;
+            border-radius: 40px;
+            width: 300px;
+            height: 59px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 90px;
+        }
+
+        div.faq{
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            
+
+            background-image: linear-gradient(135deg, #4BDEFF 25%, #46A2DA 100%);
+            width: 100%;
+            height: 656px;
+
+            border-radius: 100px 100px 0px 0px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        div.containerGridFaq{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 92px;
+        }
+
+        div.GridFaqEsquerdo{
+            display: flex;
+            flex-direction: column;
+            gap: 53px;
+
+            width: 40%;
+            height: 100%;
+        }
+
+        div.GridFaqDireito{
+            display: flex;
+            flex-direction: column;
+            gap: 53px;
+
+            width: 40%;
+            height: 100%;
+        }
+
+        button.botaoFaq{
+            background-color: rgba(0, 0, 0, 0.4);
+            border: none;
+            border-radius: 40px;
+            width: 100%;
+            height: 100%;
+
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="login.html">Entrar</a>
+            <a href="ListaAnimais.html">Adotar</a>
+            <a href="#"><img src="imagens/logoEscrita01.png" alt="Logo Escrita"></a>
+            <a href="#">Sobre</a>
+            <a href="#">F.A.Q</a>
+        </nav>
+    </header>
+    <div id="divInicial">
+        <div style="position: relative; width: 100%; height: 100%;">
+            <p style="font-family: 'Italiana', sans-serif; font-size: 350px; letter-spacing: 38.5px; text-align: center; margin: 0;">ADOTE</p>
+            <img src="imagens/dogtransparente.png" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 353px; height: 436px;" alt="Gato e Cachorro">
+            <p style="font-family: 'Italianno'; font-size: 96px; position: absolute; left: 0px; bottom: 0px; margin: 0px 32px 0px 350px; color: black; line-height: 68%;">
+            Adicione <span style="color: #FFEA00;">cor</span> à <br>vida deles</p>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 38px; margin-bottom: 10px;">
+        <img src="imagens/logoMelhor.png" alt="Logo Completa" style="width: 139px; height: 121px;">
+    </div>
+    <h1 class="titPreto" style="text-align: center; margin-bottom: 38px;">Sobre</h1>
+    <p class="pInfo" style="text-align: center; margin-bottom: 133px; margin-top: 0px;">Bem-vindo ao Adota Pet, a plataforma que conecta ONGs de proteção <br> animal a pessoas dispostas a dar um lar cheio de amor a gatos e cachorros <br> resgatados! <br>Adote! Não compre! Salve vidas!</p>
+    <div class="divImagem">
+        <div style="width: 50%;">
+        </div>
+        <div class="container">
+           <h1 class="titBranco" style="margin-top: 55px; margin-bottom: 43px;">O que fazemos?</h1>
+           <p style="font-family: 'Montserrat', sans-serif; font-weight: bold; font-size: 20px; color: rgba(255, 255, 255, 0.8); margin: 0px;">Nosso site é uma ponte digital entre:</p>
+           <div class="cardContainer">
+            <div class="card" style="margin-right: 27px;">
+                <h3 style="font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: bold; margin: 35px 0px 46px;">ONGs e Protetores</h3>
+                <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; margin: 0 auto;">Que podem cadastrar <br>animais resgatados para <br> adoção, com fotos, histórias e informações.</p>
+            </div>
+            <div class="card" style="margin-left: 27px;">
+                <h3 style="font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: bold; margin: 35px 0px 28px;">Pessoas que <br>querem adotar</h3>
+                <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; margin: 0 auto">Que encontram perfis de <br> pets disponíveis e <br> podem entrar em contato diretamente com a ONG responsável.</p>
+            </div>
+           </div>
+        </div>
+    </div>
+    <h1 class="titPreto" style="text-align: center; margin-bottom: 64px;">Como funciona?</h1>
+    <div class="containerGrid">
+        <div class="item">
+            <div class="cardGrid1">
+            </div>
+            <div>
+                <h3 class="padraoEscritaCard">Ongs/Protetores</h3>
+                <p class="padraoEscritaDesc">Se cadastram e adicionam os pets resgatados.</p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="cardGrid2">
+                
+            </div>
+            <div>
+                <h3 class="padraoEscritaCard">Adotantes</h3>
+                <p class="padraoEscritaDesc">Buscam por animais, entram em contato e agendam visitas.</p>
+            </div>
+        </div>
+        <div class="item">
+            <div class="cardGrid3">
+            </div>
+            <div>
+                <h3 class="padraoEscritaCard">Juntos, fazemos a adoção acontecer</h3>
+                <p class="padraoEscritaDesc" style="margin-top: 14px;">Com segurança e responsabilidade.</p>
+            </div>
+        </div>
+    </div>
+    <h1 class="titPreto" style="margin-bottom: 44px;">Quer fazer parte disso?</h1>
+    <a class="botaoRegistre" href="./CadastroUsuario.html">Registre-se agora</a>
+    <div class="faq">
+        <h1 class="titPreto" style="color: rgba(0, 0, 0, 0.8); text-align: center; margin: 59px auto;">Perguntas frequentes</h1>
+        <div class="containerGridFaq">
+            <div class="GridFaqEsquerdo">
+                <button class="botaoFaq">Como o site garante que as ONGs e animais cadastrados são confiáveis?</button>
+                <button class="botaoFaq">Como faço para adotar um pet pelo site?</button>
+                <button class="botaoFaq">Posso adotar um pet de outra cidade/estado?</button>
+            </div>
+            <div class="GridFaqDireito">
+                <button class="botaoFaq">Quais informações são obrigatórias para <br> cadastrar um animal para adoção?</button>
+                <button class="botaoFaq">Como minha ONG pode se cadastrar no site?</button>
+                <button class="botaoFaq">Existe algum custo para usar a plataforma?</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

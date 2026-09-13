@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Animal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Italianno&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+        body{
+            padding: 0px;
+            margin: 0px;
+            display: flex;
+            
+            align-items: center;
+            flex-direction: column;
+            background-color: white;
+        }
+
+        header{
+            background-color: white;
+            width: 100%;
+            padding: 40px 0px 40px 0px;
+
+            align-items: center;
+            text-align: center;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        nav{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+        }
+
+                nav > a:hover{
+            text-decoration: underline;
+        }
+
+        nav > a > img{
+            height: auto;
+            height: 70px;
+            width: 80px;
+        }
+
+        a{
+            text-decoration: none;
+            color: black;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        div#container{
+            background-color: white;
+            display: flex;
+            justify-content: center;
+
+            max-width: 1440px;
+            width: 100%;
+
+            padding: 0px 90px 0px 90px;
+            margin: 30px 0px 0px 0px;
+        }
+
+        div#fotoAnimal{
+            background-color: white;
+            width: 549px;
+            height: 549px; 
+            margin-right: 107px;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #imagemGrande{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        div#cardFotoAnimal{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            width: 550px;
+            height: 116px;
+
+            margin-top: 36px;
+            gap: 18px;
+        }
+
+        img.miniatura{
+            width: 116px;
+            height: 116px;
+
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            opacity: 0.8;
+
+            border-width: 3px;
+            border-style: solid;
+            border-color: transparent;   
+        }
+
+        img.miniatura:hover{
+            opacity: 1;
+        }
+
+        img.miniatura.ativa{
+            border-width: 3px;
+            border-style: solid;
+            border-color: #36C3FF;
+            opacity: 1;
+        }
+
+        div#descricaoAnimal{
+            background-color: white;
+
+            width: 603px;
+            height: 100%;
+        }
+
+        div#colunaCard1{
+            align-items: start;
+            justify-content: flex-start;
+            display: flex;
+        }
+
+        div.infoCard1{
+            background-color: white;
+            width: 263px;
+            height: 43px;
+
+            margin-right: 24px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            border-width: 1px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 25%);
+        }
+
+        div.infoCard2{
+            background-color: white;
+            width: 263px;
+            height: 43px;
+
+            margin-left: 24px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            border-width: 1px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 25%);
+        }
+
+        .containerCard{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+
+            font-family: 'Inter', sans-serif;
+        }
+
+        div.cardBoxEsquerdo, div.cardBoxDireito{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 34px;
+
+            text-align: center;
+        }
+
+        a#botaoAzul{
+            width: 209px;
+            height: 59px;
+            color: white;
+            background-color: #36C3FF;
+
+            border-radius: 40px;
+
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            font-size: 24px;
+
+            display: block;
+            text-align: center;
+            margin: 38px auto 0 auto;
+            line-height: 59px;
+        }
+
+        div.containerCard > strong{
+            font-family: 'inter', sans-serif;
+            font-size: 24px;
+        }
+
+        div.infoCard1 > p{
+            font-family: 'inter', sans-serif;
+            font-weight: regular;
+            font-size: 16px;
+
+            margin: 4px 0px 0px 0px;
+        }
+
+        div.infoCard2 > p{
+            font-family: 'inter', sans-serif;
+            font-weight: regular;
+            font-size: 16px;
+
+            margin: 4px 0px 0px 0px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="login.html">Entrar</a>
+            <a href="#">Adotar</a>
+            <a href="HomePage.html"><img src="imagens/DetalhesAnimal/logoMelhor.png" alt="Logo com desenho e escrito"></a>
+            <a href="#">Sobre</a>
+            <a href="#">F.A.Q</a>
+        </nav>
+    </header>
+    <div id="container">
+        <div id="containerFotosAnimal">
+            <div id="fotoAnimal">
+                <img id="imagemGrande" src="#" alt="Foto principal do gato">
+            </div>
+            <div id="cardFotoAnimal">
+                <img class="miniatura ativa" src="imagens/DetalhesAnimal/cat1.jpeg" onclick="trocarImagem(this)">
+                <img class="miniatura" src="imagens/DetalhesAnimal/cat2.jpeg" onclick="trocarImagem(this)">
+                <img class="miniatura" src="imagens/DetalhesAnimal/cat3.jpeg" onclick="trocarImagem(this)">
+            </div>
+        </div>
+        <div id="descricaoAnimal"> 
+            <h1 style="margin: 0px 0px 4px 0px; font-family: 'Montserrat', sans-serif; font-weight: bold; font-size: 42px">Hazel</h1>
+            <p style="margin-top: 0px; font-family: 'inter', sans-serif; font-size: 16px;">    O Hazel é um lindo gatinho laranja de porte pequeno e apenas 2 aninhos de idade. Resgatado das 
+                ruas pela equipe da Resgata Pet, ele logo mostrou sua personalidade encantadora: é super dócil, adora 
+                um colo e está sempre pronto para brincar. Mesmo com um passado difícil, Hazel nunca perdeu a alegria 
+                de viver — ele ronrona fácil, se apega rápido e conquista todos com seu jeitinho carinhoso e animado. 
+                Agora, ele espera por uma família tão especial quanto ele, que lhe ofereça o amor e o cuidado que merece.
+                Se você procura um companheiro leal, carinhoso e cheio de energia boa, o Hazel é o gatinho perfeito 
+                para você! 🐾</p>
+            <div class="containerCard">
+                <div class="cardBoxEsquerdo">
+                    <div class="infoCard1">
+                        <strong>Raça</strong>
+                        <p>Indefinido</p>
+                    </div>
+                    <div class="infoCard1">
+                        <strong>Idade</strong>
+                        <p>2 anos</p>
+                    </div>
+                    <div class="infoCard1">
+                        <strong>Localização</strong>
+                        <p>Paraná - Londrina</p>
+                    </div>
+                    <div class="infoCard1">
+                        <strong>Possui Microchip?</strong>
+                        <p>Não</p>
+                    </div>
+                </div>
+                <div class="cardBoxDireito">
+                    <div class="infoCard2">
+                        <strong>Sexo</strong>
+                        <p>Macho</p>
+                    </div>
+                    <div class="infoCard2">
+                        <strong>Porte do animal</strong>
+                        <p>Pequeno</p>
+                    </div>
+                    <div class="infoCard2">
+                        <strong>Cor</strong>
+                        <p>Laranja</p>
+                    </div>
+                    <div class="infoCard2">
+                        <strong>ONG de resgaste</strong>
+                        <p>Nome da ONG</p>
+                    </div>
+                </div>
+            </div>
+            <a id="botaoAzul" href="#">Adotar</a>
+        </div>
+    </div>
+    <script>
+    function trocarImagem(elemento) {
+      const imagemGrande = document.getElementById("imagemGrande");
+
+      // Troca a imagem principal
+      imagemGrande.src = elemento.src;
+
+      // Remove a classe ativa de todas
+      document.querySelectorAll("img.miniatura").forEach(img => {
+        img.classList.remove("ativa");
+      });
+
+      // Adiciona na clicada
+      elemento.classList.add("ativa");
+    }
+
+    // Carrega a primeira imagem ao abrir a página
+    document.addEventListener("DOMContentLoaded", function() {
+      const primeiraImagem = document.querySelector("img.miniatura");
+      if (primeiraImagem) {
+        trocarImagem(primeiraImagem);
+      }
+    });
+  </script>
+</body>
+</html>

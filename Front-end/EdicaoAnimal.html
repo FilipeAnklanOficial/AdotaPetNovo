@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Animal</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Italiana&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Italianno&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+      body {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-color: #f4f7fb;
+        font-family: "Inter", sans-serif;
+      }
+
+      header {
+        background-color: white;
+        width: 100%;
+        padding: 40px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 80px;
+      }
+
+      nav > a:hover {
+        text-decoration: underline;
+      }
+
+      nav > a > img {
+        height: 70px;
+        width: 80px;
+      }
+
+      a {
+        text-decoration: none;
+        color: black;
+        font-family: "Courier New", Courier, monospace;
+      }
+
+      #container {
+        display: flex;
+        justify-content: center;
+
+        gap: 90px;
+        width: 100%;
+        max-width: 1440px;
+
+        box-sizing: border-box;
+
+        background-color: blue;
+      }
+
+      #containerFotosAnimal {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      #fotoAnimal {
+        position: relative;
+        background-color: white;
+        width: 549px;
+        height: 549px;
+
+        border-radius: 20px;
+        overflow: hidden;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      #imagemGrande {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .fotoActions {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .fotoActions button {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: none;
+        background-color: white;
+        cursor: pointer;
+        font-size: 20px;
+        color: #222;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      #cardFotoAnimal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        width: 100%;
+        height: 116px;
+
+        margin-top: 36px;
+        gap: 18px;
+        border-radius: 20px;
+        padding: 20px 0px;
+
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.04);
+      }
+
+      div.contConfirmButton {
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        background-color: green;
+      }
+
+      div.contDescricaoAnimal {
+        width: 100%;
+      }
+
+      img.miniatura {
+        width: 100px;
+        height: 100px;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        opacity: 0.8;
+        border: 2px solid transparent;
+        object-fit: cover;
+      }
+
+      img.miniatura:hover,
+      img.miniatura.ativa {
+        opacity: 1;
+        border-color: #36c3ff;
+      }
+
+      #descricaoAnimal {
+        background-color: white;
+        width: 603px;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 25%);
+      }
+
+      #descricaoAnimal h1,
+      #descricaoAnimal #nomeAnimal {
+        margin: 0 0 16px 0;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        font-size: 42px;
+        width: 100%;
+      }
+
+      #descricaoAnimal #nomeAnimal {
+        border: 1px solid #dce3ea;
+        border-radius: 10px;
+        padding: 14px 18px;
+        background: #f9fbfd;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        font-size: 42px;
+        color: #222;
+        box-sizing: border-box;
+      }
+
+      #descricaoAnimal textarea {
+        width: 100%;
+        min-height: 120px;
+        border-radius: 10px;
+        border: 1px solid #dce3ea;
+        padding: 18px;
+        resize: vertical;
+        font-size: 16px;
+        font-family: "Inter", sans-serif;
+        background: #f9fbfd;
+        box-sizing: border-box;
+      }
+
+      .containerCard {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        gap: 20px;
+        margin-top: 30px;
+
+        background-color: red;
+      }
+
+      .infoCard1,
+      .infoCard2 {
+        background-color: white;
+        width: 100%;
+        min-height: 100px;
+
+        border-radius: 20px;
+        border: 1px solid #e5eaf1;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 25%);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .infoCard1 label,
+      .infoCard2 label {
+        font-size: 16px;
+        color: black;
+        font-weight: bold;
+      }
+
+      .infoCard1 input,
+      .infoCard2 input,
+      .infoCard1 select,
+      .infoCard2 select {
+        width: 80%;
+        border: 1px solid #dce3ea;
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin: 4px 0px 0px 0px;
+
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+
+        background: #f9fbfd;
+        outline: none;
+      }
+
+      .infoCard1 select,
+      .infoCard2 select {
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg fill="%23366666" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 12px;
+      }
+
+      #confirmButton {
+        width: 100%;
+        max-width: 320px;
+
+        margin-top: 32px;
+        padding: 18px 0;
+
+        border-radius: 40px;
+        border: none;
+        background-color: #36c3ff;
+        color: white;
+
+        font-size: 20px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      div.contButton {
+        grid-column: span 2 / span 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      @media (max-width: 1200px) {
+        #container {
+          flex-direction: column;
+          align-items: center;
+          padding: 24px 30px 40px;
+        }
+
+        #descricaoAnimal {
+          width: 100%;
+        }
+
+        #cardFotoAnimal {
+          width: 100%;
+        }
+
+        .containerCard {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="login.html">Entrar</a>
+        <a href="#">Adotar</a>
+        <a href="HomePage.html"
+          ><img
+            src="imagens/DetalhesAnimal/logoMelhor.png"
+            alt="Logo com desenho e escrito"
+        /></a>
+        <a href="#">Sobre</a>
+        <a href="#">F.A.Q</a>
+      </nav>
+    </header>
+    <div id="container">
+      <div id="containerFotosAnimal">
+        <div id="fotoAnimal">
+          <img
+            id="imagemGrande"
+            src="imagens/DetalhesAnimal/cat1.jpeg"
+            alt="Foto principal do gato"
+          />
+          <div class="fotoActions">
+            <button type="button" title="Adicionar imagem">+</button>
+            <button type="button" title="Editar imagem">✎</button>
+          </div>
+        </div>
+        <div id="cardFotoAnimal">
+          <img
+            class="miniatura ativa"
+            src="imagens/DetalhesAnimal/cat1.jpeg"
+            onclick="trocarImagem(this)"
+          />
+          <img
+            class="miniatura"
+            src="imagens/DetalhesAnimal/cat2.jpeg"
+            onclick="trocarImagem(this)"
+          />
+          <img
+            class="miniatura"
+            src="imagens/DetalhesAnimal/cat3.jpeg"
+            onclick="trocarImagem(this)"
+          />
+        </div>
+      </div>
+      <div class="contDescricaoAnimal">
+        <div id="descricaoAnimal">
+          <input
+            id="nomeAnimal"
+            type="text"
+            value="Hazel"
+            aria-label="Nome do animal"
+          />
+          <textarea placeholder="Descreva o animal aqui...">
+  O Hazel é um lindo gatinho laranja de porte pequeno e apenas 2 aninhos de idade. Resgatado das ruas pela equipe da Resgata Pet, ele logo mostrou sua personalidade encantadora: é super dócil, adora um colo e está sempre pronto para brincar.
+  </textarea
+          >
+        </div>
+        <div class="containerCardPrincipal">
+          <div class="containerCard">
+            <div class="infoCard1">
+              <label for="raca">Raça</label>
+              <input id="raca" type="text" value="Indefinido" />
+            </div>
+            <div class="infoCard2">
+              <label for="sexo">Sexo</label>
+              <select id="sexo">
+                <option>Macho</option>
+                <option>Fêmea</option>
+              </select>
+            </div>
+            <div class="infoCard1">
+              <label for="idade">Idade</label>
+              <input id="idade" type="text" value="2 anos" />
+            </div>
+            <div class="infoCard2">
+              <label for="porte">Porte do animal</label>
+              <select id="porte">
+                <option>Pequeno</option>
+                <option>Médio</option>
+                <option>Grande</option>
+              </select>
+            </div>
+            <div class="infoCard1">
+              <label for="localizacao">Localização</label>
+              <input id="localizacao" type="text" value="Paraná - Londrina" />
+            </div>
+            <div class="infoCard2">
+              <label for="cor">Cor</label>
+              <input id="cor" type="text" value="Laranja" />
+            </div>
+            <div class="infoCard1">
+              <label for="microchip">Possui Microchip?</label>
+              <select id="microchip">
+                <option>Não</option>
+                <option>Sim</option>
+              </select>
+            </div>
+            <div class="infoCard2">
+              <label for="ong">ONG de resgaste</label>
+              <input id="ong" type="text" value="Nome da ONG" />
+            </div>
+            <div class="contButton">
+              <button id="confirmButton" type="button">Confirmar Edição</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function trocarImagem(elemento) {
+        const imagemGrande = document.getElementById("imagemGrande");
+        imagemGrande.src = elemento.src;
+        document.querySelectorAll("img.miniatura").forEach((img) => {
+          img.classList.remove("ativa");
+        });
+        elemento.classList.add("ativa");
+      }
+    </script>
+  </body>
+</html>

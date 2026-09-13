@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adotar</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+      
+      body {
+        font-family: "Inter", "Courier Prime", sans-serif;
+        background-color: #F8FAFC;
+        margin: 0px;
+        padding: 0px;
+      }
+
+      header {
+        width: 100%;
+        padding: 38px 50px 17px 50px;
+        font-family: 'Courier New', Courier, monospace;
+
+
+        background-color: red;
+      }
+
+      nav{
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
+
+      nav > a > img{
+        width: 80px;
+        height: 70px;
+      }
+
+      nav > a{
+        text-decoration: none;
+        font-size: 16px;
+        color: black;
+
+        margin-left: 42px;
+      }
+
+      nav a:hover{
+        text-decoration: underline;
+      }
+
+      button{
+        margin-left: 10px;
+      }
+      
+      div#container {
+        width: 100%;
+        padding: 0px;
+
+        display: flex;
+        flex-direction: row;
+      }
+
+      div#divFiltrosPrincipal {
+        background-color: green;
+        width: 20%;
+        height: 100%;
+
+        padding: 50px;
+        margin-left: 40px;
+        margin-right: 60px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      div#divTituloESub {
+        text-align: flex-start;
+      }
+
+      div#divTituloESub > h1 {
+        color: #36C3FF;
+        font-size: 24px;
+        font-weight: 500;
+
+        margin: 0px;
+      }
+
+      div#divTituloESub > p{
+        color: #7085a0;
+        font-size: 14px;
+        margin: 5px 0px 20px;
+      }
+
+      div#Filtros {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 10px;
+      }
+
+      .cardFiltro > label{
+        color: #7085a0;
+        font-size: 16px;
+
+        margin-top: 15px;
+      }
+
+      div.cardFiltro{
+        background-color: white;
+
+        border-radius: 30px;
+        padding: 15px;
+        width: 100%;
+      }
+
+      .selectStyle{
+        border-radius: 10px;
+        border: none;
+      }
+
+      div#divListaAnimais {
+        background-color: violet;
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 20px;
+        padding: 30px;
+        margin-right: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="HomePage.html"><img src="imagens/logoMelhor.png" alt="Logo"></a>
+        <a href="ListaAnimais.html">Adotar</a>
+        <a href="HomePage.html">Sobre</a>
+        <a href="HomePage.html">F.A.Q</a>
+        <button>Icone</button>
+      </nav>
+    </header>
+    <div id="container">
+      <div id="divFiltrosPrincipal">
+        <div id="divTituloESub">
+          <h1>Filtros</h1>
+          <p>Refine sua busca</p>
+        </div>
+        <div id="Filtros">
+
+          <div class="cardFiltro">
+            <label for="tipoAnimal">Tipo de animal:</label>
+            <select class="selectStyle" name="tipoAnimal">
+              <option value="" selected>Todos</option>
+              <option value="cachorro">Cachorro</option>
+              <option value="gato">Gato</option>
+            </select>
+          </div>
+
+          
+          <div class="cardFiltro">
+            <label for="raça">Raça</label>
+            <select class="selectStyle" name="raça">
+              <option value="" selected>Todas</option>
+            </select>
+          </div>
+
+          <div class="cardFiltro">
+            <label for="sexo">Sexo</label>
+            <select class="selectStyle" name="sexo">
+              <option value="" selected>Todos</option>
+              <option value="macho">Macho</option>
+              <option value="femea">Fêmea</option>
+            </select>
+          </div>
+
+          <div class="cardFiltro">
+            <label for="cor">Cor</label>
+            <select class="selectStyle" name="cor">
+              <option value="" selected>Todas</option>
+              <option>Branco</option>
+              <option>Preto</option>
+              <option>Laranja</option>
+              <option>Cinza</option>
+              <option>Marrom</option>
+              <option>Creme</option>
+              <option>Frajola</option>
+            </select>
+          </div>
+
+          <div class="cardFiltro">
+            <label for="idade">Idade:</label>
+            <select class="selectStyle" name="idade">
+              <option value="">Todas</option>
+              <option value="filhote">Filhote</option>
+              <option value="adulto">Adulto</option>
+              <option value="idoso">Idoso</option>
+            </select>
+          </div>
+          
+          <div class="cardFiltro">
+            <label for="porte">Porte do animal</label>
+            <select class="selectStyle" name="porte">
+              <option value="" selected>Todos</option>
+              <option value="pequeno">Pequeno</option>
+              <option value="medio">Médio</option>
+              <option value="grande">Grande</option>
+            </select>
+          </div>
+
+          <div class="cardFiltro">
+            <label for=microchip>Possui Microchip?</label>
+            <select  class="selectStyle" name="microchip">
+              <option value="" selected>Todos</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+
+          <div class="cardFiltro">
+            <label for="localicacao">Localização</label>
+            <input class="selectStyle" type="text" name="localizaçao" placeholder="Digite a localização"/>
+          </div>
+
+
+          <div class="cardFiltro">
+            <label for="vacinado">Vacinado</label>
+            <select class="selectStyle" name="vacinado">
+              <option value="" selected>Todos</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+
+          <button>Aplicar Filtros</button>
+        </div>
+      </div>
+      <div id="divListaAnimais">
+    </div>
+  </body>
+</html>
