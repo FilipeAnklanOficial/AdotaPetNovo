@@ -58,6 +58,18 @@ public class AnimalService {
                 .toList();
     }
 
+    public List<AnimalResponseDTO> getAnimalsByOng() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return repository.findByOng(usuario)
+                .stream()
+                .map(AnimalResponseDTO::new)
+                .toList();
+    }
+
     public List<AnimalResponseDTO> buscar(AnimalFiltroDTO filtro) {
 
         Specification<Animal> spec = Specification

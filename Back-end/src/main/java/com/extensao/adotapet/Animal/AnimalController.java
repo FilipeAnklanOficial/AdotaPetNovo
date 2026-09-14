@@ -28,6 +28,11 @@ public class AnimalController {
         return animalService.getAll();
     }
 
+    @GetMapping("/ong")
+    public List<AnimalResponseDTO> getAnimaisByOng() {
+        return animalService.getAnimalsByOng();
+    }
+
     @GetMapping("/{id}")
     public AnimalResponseDTO getById(@PathVariable Long id){
         return animalService.getById(id);

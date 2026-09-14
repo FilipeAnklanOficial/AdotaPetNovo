@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, Info, MessageCircle, User } from "lucide-react";
+
 import {
   Select,
   SelectContent,
@@ -15,6 +17,7 @@ import axios from "axios";
 import { apiService } from "@/services/ApiService";
 
 interface AnimalType {
+  id: number;
   img: string;
   name: string;
   gender: "Macho" | "Fêmea";
@@ -83,6 +86,7 @@ interface AnimalType {
 // ];
 
 const ListarAnimais = () => {
+  const navigate = useNavigate();
   const [animais, setAnimais] = useState<AnimalType[]>([]);
 
   const [filtro, setFiltro] = useState({
@@ -122,6 +126,7 @@ const ListarAnimais = () => {
 
       setAnimais(
         response.data.map((pet: any) => ({
+          id: pet.id,
           img: pet.fotos,
           name: pet.nome,
           gender: pet.sexo,
@@ -147,6 +152,7 @@ const ListarAnimais = () => {
         );
         setAnimais(
           response.data.map((pet: any) => ({
+            id: pet.id,
             img: pet.fotos,
             name: pet.nome,
             gender: pet.sexo,
@@ -366,8 +372,9 @@ const ListarAnimais = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {animais.map((pet, index) => (
               <div
-                key={index}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200"
+              key={pet.id}
+              onClick={() => navigate(`/animais/${pet.id}`)}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 cursor-pointer hover:scale-[1.02] transition-transform"
               >
                 <img
                   src={pet.img}

@@ -194,13 +194,42 @@ export default function RegistrarAnimal() {
     setSucesso(false);
 
     // Validações básicas
-    if (!form.nome.trim())          return setErro("Informe o nome do animal.");
-    if (!form.especie)              return setErro("Selecione a espécie.");
-    if (!form.sexo)                 return setErro("Selecione o sexo.");
-    if (!form.porte)                return setErro("Selecione o porte.");
-    if (!form.possuiChip)           return setErro("Informe se possui microchip.");
-    if (!form.vacinado)             return setErro("Informe se está vacinado.");
-    if (!form.idade)                return setErro("Informe a idade.");
+    if (!form.nome.trim())
+      return setErro("Informe o nome do animal.");
+
+    if (!form.raca.trim())
+      return setErro("Informe a raça do animal.");
+
+    if (!form.idade)
+      return setErro("Informe a idade.");
+
+    if (!form.especie)
+      return setErro("Selecione a espécie.");
+
+    if (!form.sexo)
+      return setErro("Selecione o sexo.");
+
+    if (!form.porte)
+      return setErro("Selecione o porte.");
+
+    if (!form.cor.trim())
+      return setErro("Informe a cor do animal.");
+
+    if (!form.localizacao.trim())
+      return setErro("Informe a localização do animal.");
+
+    if (!form.historicoSaude.trim())
+      return setErro("Informe o histórico de saúde do animal.");
+
+    if (!form.comportamento.trim())
+      return setErro("Informe o comportamento do animal.");
+
+    if (!form.possuiChip)
+      return setErro("Informe se o animal possui microchip.");
+
+    if (!form.vacinado)
+      return setErro("Informe se o animal está vacinado.");
+
 
     // Foto principal em base64 (primeiro slot preenchido ou string vazia)
     const fotoPrincipal = slots.find((s) => s.src !== null)?.src ?? "";
@@ -270,16 +299,54 @@ export default function RegistrarAnimal() {
 
       {/* Feedback de erro / sucesso */}
       {erro && (
-        <div className="w-full max-w-[1440px] px-[90px] mt-4">
-          <div className="bg-red-50 border border-red-300 text-red-700 rounded-xl px-5 py-3 text-sm">
-            ⚠️ {erro}
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white w-[420px] rounded-[20px] shadow-[0px_4px_15px_rgba(0,0,0,0.25)] p-8 text-center">
+            
+            <div className="text-5xl mb-4">
+              ⚠️
+            </div>
+
+            <h2 className="text-2xl font-bold text-[#36c3ff] mb-3">
+              Atenção!
+            </h2>
+
+            <p className="text-gray-600 mb-6">
+              {erro}
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setErro("")}
+              className="w-[180px] h-[50px] bg-[#36c3ff] text-white rounded-[40px] font-bold text-lg hover:bg-[#1ab0f0] transition"
+            >
+              OK
+            </button>
+
           </div>
         </div>
       )}
       {sucesso && (
-        <div className="w-full max-w-[1440px] px-[90px] mt-4">
-          <div className="bg-green-50 border border-green-300 text-green-700 rounded-xl px-5 py-3 text-sm">
-            ✅ Animal cadastrado com sucesso!
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white w-[420px] rounded-[20px] shadow-[0px_4px_15px_rgba(0,0,0,0.25)] p-8 text-center">
+            <div className="text-5xl mb-4">
+              ✅
+            </div>
+
+            <h2 className="text-2xl font-bold text-[#36c3ff] mb-3">
+              Animal cadastrado com sucesso!
+            </h2>
+
+            <p className="text-gray-600 mb-6">
+              O animal foi cadastrado e já está disponível no sistema.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => window.location.href = "/gestao-ong"}
+              className="w-[180px] h-[50px] bg-[#36c3ff] text-white rounded-[40px] font-bold text-lg hover:bg-[#1ab0f0] transition"
+            >
+              OK
+            </button>
           </div>
         </div>
       )}
@@ -312,16 +379,38 @@ export default function RegistrarAnimal() {
         <div>
           {/* Nome + textos descritivos */}
           <div className="bg-white w-[603px] rounded-[20px] p-10 shadow-[0px_4px_8px_rgba(0,0,0,0.25)]">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Nome
+              </label>
             <input
               name="nome" value={form.nome} onChange={handleChange}
               type="text" placeholder="Digite o nome do animal"
               className="w-full px-[18px] py-[14px] mb-4 bg-[#f9fbfd] border border-[#dce3ea] rounded-[10px] box-border font-[Montserrat,sans-serif] font-bold text-[42px] text-[#222] outline-none placeholder:text-sm placeholder:font-medium placeholder:font-[Inter,sans-serif]"
             />
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Comportamento do animal
+              </label>
+
             <textarea
               name="comportamento" value={form.comportamento} onChange={handleChange}
-              placeholder="Comportamento do animal"
+              placeholder="Informe o comportamento do animal"
               className="w-full min-h-[80px] p-[18px] bg-[#f9fbfd] rounded-[10px] border border-[#dce3ea] box-border resize-y text-base font-[Inter,sans-serif] outline-none placeholder:text-sm placeholder:font-medium"
             />
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Histórico de saúde
+              </label>
+
+              <textarea
+                value={form.historicoSaude}
+                onChange={(e) =>
+                  setForm({ ...form, historicoSaude: e.target.value })
+                }
+                placeholder="Informe o histórico de saúde do animal"
+                rows={4}
+                className="w-full min-h-[80px] p-[18px] bg-[#f9fbfd] rounded-[10px] border border-[#dce3ea] box-border resize-y text-base font-[Inter,sans-serif] outline-none placeholder:text-sm placeholder:font-medium"
+              />
+            </div>
           </div>
 
           {/* Cards de informações */}
