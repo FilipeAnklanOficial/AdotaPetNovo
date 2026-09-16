@@ -91,44 +91,19 @@ export function Login() {
 
           <div className="login-card">
 
-            {/* <div className="login-toggle">
-              <div
-                className="login-slider"
-                style={{
-                  left:
-                    tipo === "usuario"
-                      ? 0
-                      : "calc(100% - 78px)",
-                  width:
-                    tipo === "usuario"
-                      ? 86
-                      : 78,
-                }}
-              />
+            <div className="login-title">
+              <h1>
+                Bem-vindo de volta!
+              </h1>
 
-              <span
-                className={`login-option ${
-                  tipo === "usuario" ? "active" : ""
-                }`}
-                onClick={() => setTipo("usuario")}
-              >
-                Usuário
-              </span>
+              <p>
+                Entre na sua conta para continuar.
+              </p>
 
-              <span
-                className={`login-option ${
-                  tipo === "ong" ? "active" : ""
-                }`}
-                onClick={() => setTipo("ong")}
-              >
-                ONG
-              </span>
-            </div> */}
-
+            </div>
             <form
               onSubmit={handleLogin}
-              className="login-form"
-            >
+              className="login-form">
               <input
                 className="login-input"
                 type="email"
@@ -136,8 +111,7 @@ export function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                autoComplete="off"
-              />
+                autoComplete="off"/>
 
               <input
                 className="login-input"
@@ -146,8 +120,7 @@ export function Login() {
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
                 required
-                autoComplete="off"
-              />
+                autoComplete="off"/>
 
               {erro && (
                 <p className="login-error">
@@ -158,25 +131,22 @@ export function Login() {
               <button
                 type="submit"
                 className="login-button"
-                disabled={carregando}
-              >
+                disabled={carregando}>
                 {carregando ? "Entrando..." : "Log in"}
               </button>
             </form>
 
             <a
               href="/cadastro"
-              className="login-register-link"
-            >
+              className="login-register-link">
               Cadastrar-se
             </a>
 
-            <a
+            {/* <a
               href="#"
-              className="login-forgot-link"
-            >
+              className="login-forgot-link">
               Esqueceu a senha?
-            </a>
+            </a>  */}
 
           </div>
         </div>

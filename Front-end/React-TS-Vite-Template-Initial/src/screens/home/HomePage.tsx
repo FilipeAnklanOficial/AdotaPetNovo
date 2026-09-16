@@ -167,7 +167,7 @@ export const HomePage = (): JSX.Element => {
         <h1 className="titulo-preto">Quer fazer parte disso?</h1>
 
         <a
-          href="/cadastros"
+          href="/cadastro"
           className="botao-registre"
         >
           Registre-se agora

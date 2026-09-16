@@ -62,6 +62,25 @@
   border-radius: 20px;
 }
 
+.login-title {
+  text-align: center;
+  margin-top: 55px;
+}
+
+.login-title h1 {
+  font-family: "Inter", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.login-title p {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 8px;
+}
+
 .login-toggle {
   position: relative;
   width: 132px;
@@ -104,7 +123,7 @@
 
 .login-form {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 45px;
 }
 
 .login-input {
@@ -156,10 +175,10 @@
   margin-bottom: 22px;
 }
 
-.login-forgot-link {
+/*.login-forgot-link {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.5);
-}
+}*/
 
 .login-dog {
   position: fixed;

@@ -5,7 +5,8 @@ import {
   Login,
   GestaoOng,
   RegistrarAnimal,
-  DetalhesAnimal
+  DetalhesAnimal,
+  CadastroUsuario
 } from "../screens";
 
 export const routesList = createBrowserRouter([
@@ -33,4 +34,8 @@ export const routesList = createBrowserRouter([
     path: "/animais/:id",
     element: <DetalhesAnimal />,
   },
+  { path: "/cadastro", 
+    element: <CadastroUsuario />,
+  },
+  
 ]);

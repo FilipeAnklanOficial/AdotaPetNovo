@@ -49,13 +49,13 @@ export const Header = (): JSX.Element => {
             </a>
 
             <a
-              href="/#sobre"
+              href="#sobre"
               className="text-black hover:underline font-mono">
               Sobre
             </a>
 
             <a
-              href="/#faq"
+              href="#faq"
               className="text-black hover:underline font-mono">
               F.A.Q
             </a>
