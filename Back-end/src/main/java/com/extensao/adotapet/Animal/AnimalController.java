@@ -3,6 +3,8 @@ package com.extensao.adotapet.Animal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,13 +21,21 @@ public class AnimalController {
     }
 
     @PostMapping("/buscar")
-    public List<AnimalResponseDTO> buscar(@RequestBody AnimalFiltroDTO filtro) {
-        return animalService.buscar(filtro);
+    public Page<AnimalResponseDTO> buscar(
+            @RequestBody AnimalFiltroDTO filtro,
+            Pageable pageable
+    ) {
+        return animalService.buscar(filtro, pageable);
     }
 
     @GetMapping
-    public List<AnimalResponseDTO> getAll() {
-        return animalService.getAll();
+    public Page<AnimalResponseDTO> getAll(Pageable pageable) {
+        return animalService.getAll(pageable);
+    }
+
+    @GetMapping("/ong")
+    public List<AnimalResponseDTO> getAnimaisByOng() {
+        return animalService.getAnimalsByOng();
     }
 
     @GetMapping("/{id}")

@@ -13,6 +13,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 import java.util.List;
@@ -50,15 +52,28 @@ public class AnimalService {
         return new AnimalResponseDTO(animalData);
     }
 
-    public List<AnimalResponseDTO> getAll() {
+    public Page<AnimalResponseDTO> getAll(Pageable pageable) {
 
-        return repository.findByStatus(Status.DISPONIVEL)
+        return repository.findByStatus(Status.DISPONIVEL, pageable)
+                .map(AnimalResponseDTO::new);
+    }
+
+    public List<AnimalResponseDTO> getAnimalsByOng() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return repository.findByOng(usuario)
                 .stream()
                 .map(AnimalResponseDTO::new)
                 .toList();
     }
 
-    public List<AnimalResponseDTO> buscar(AnimalFiltroDTO filtro) {
+    public Page<AnimalResponseDTO> buscar(
+            AnimalFiltroDTO filtro,
+            Pageable pageable
+    ) {
 
         Specification<Animal> spec = Specification
                 .where(AnimalSpecification.disponivel());
@@ -90,10 +105,8 @@ public class AnimalService {
         if (filtro.localizacao() != null && !filtro.localizacao().isBlank())
             spec = spec.and(AnimalSpecification.localizacao(filtro.localizacao()));
 
-        return repository.findAll(spec)
-                .stream()
-                .map(AnimalResponseDTO::new)
-                .toList();
+        return repository.findAll(spec, pageable)
+                .map(AnimalResponseDTO::new);
     }
 
     public AnimalResponseDTO getById(Long id){

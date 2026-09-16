@@ -23,11 +23,11 @@ public class AuthService {
 
     public void register(Usuario usuario) {
 
+        usuario.setEmail(usuario.getEmail().toLowerCase().trim());
+
         if (repository.existsByEmail(usuario.getEmail())) {
             throw new ValidationException("Email já cadastrado");
         }
-
-        usuario.setEmail(usuario.getEmail().toLowerCase().trim());
 
         if (usuario.getTipoUsuario() == null) {
             throw new ValidationException("Tipo de usuário obrigatório");
@@ -38,14 +38,19 @@ public class AuthService {
             if (usuario.getCpf() == null || usuario.getCpf().isBlank()) {
                 throw new ValidationException("CPF obrigatório para adotante");
             }
+
+            if (repository.existsByCpf(usuario.getCpf())) {
+                throw new ValidationException("Já existe um usuário com o CPF informado");
+            }
         }
 
         if (usuario.getTipoUsuario() == TipoUsuario.ROLE_ONG) {
-            if (repository.existsByCnpj(usuario.getCnpj())){
-                throw new ValidationException("já existe um usuário com o cnpj informado");
-            }
             if (usuario.getCnpj() == null || usuario.getCnpj().isBlank()) {
                 throw new ValidationException("CNPJ obrigatório para ONG");
+            }
+
+            if (repository.existsByCnpj(usuario.getCnpj())) {
+                throw new ValidationException("Já existe um usuário com o CNPJ informado");
             }
         }
 
