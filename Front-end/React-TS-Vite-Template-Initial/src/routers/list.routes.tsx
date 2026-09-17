@@ -5,8 +5,14 @@ import {
   Login,
   GestaoOng,
   RegistrarAnimal,
+  AnimaisCadastrados,
+  AdocoesRecebidas,
+  EditarAnimal,
   DetalhesAnimal,
-  CadastroUsuario
+  CadastroUsuario,
+  FormularioAdocao,
+  AdocaoDetalhes,
+  VisualizarAnimal
 } from "../screens";
 
 export const routesList = createBrowserRouter([
@@ -36,6 +42,26 @@ export const routesList = createBrowserRouter([
   },
   { path: "/cadastro", 
     element: <CadastroUsuario />,
+  },
+  {
+  path: "/adocao/:animalId",
+  element: <FormularioAdocao />
+  },
+  { path: "/animais-cadastrados", 
+    element: <AnimaisCadastrados /> 
+  },
+  { path: "/adocoes-recebidas", 
+    element: <AdocoesRecebidas /> 
+  },
+  { path: "/animais/:id/editar", 
+    element: <EditarAnimal /> 
+  },
+  {
+  path: "/adocoes-recebidas/:id",
+  element: <AdocaoDetalhes />
+  },
+  { path: "/animais-cadastrados/:id", 
+    element: <VisualizarAnimal /> 
   },
   
 ]);

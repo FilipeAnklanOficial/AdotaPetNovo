@@ -25,5 +25,6 @@ public class PerguntaPadrao {
     public PerguntaPadrao(String texto, TipoPergunta tipo) {
         this.texto = texto;
         this.tipo = tipo;
+        this.ativo = true;
     }
 }
