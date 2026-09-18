@@ -5,7 +5,7 @@ import { apiService } from "../../services/ApiService";
 import logoMelhor from "../../images/logoMelhor.png";
 import cachorro from "../../images/cachorro.png";
 
-import "./Login.css";
+import "./login.css";
 
 export function Login() {
   const [email, setEmail] = useState("");
