@@ -46,6 +46,13 @@ export function Login() {
 
     localStorage.setItem("tipoUsuario", tipoUsuario ?? "");
 
+    const rotaDepoisLogin = localStorage.getItem("rotaDepoisLogin");
+
+    if (rotaDepoisLogin) {
+      localStorage.removeItem("rotaDepoisLogin");
+      navigate(rotaDepoisLogin);
+      return;
+    }
     if (tipoUsuario === "ROLE_ONG") {
       navigate("/gestao-ong");
     } else {

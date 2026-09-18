@@ -16,7 +16,7 @@ public class PerguntaController {
     @Autowired
     private PerguntaPadraoRepository repository;
 
-    @GetMapping("/perguntas")
+    @GetMapping("/listar")
     public List<PerguntaPadrao> listarPerguntas() {
         return repository.findByAtivoTrue();
     }

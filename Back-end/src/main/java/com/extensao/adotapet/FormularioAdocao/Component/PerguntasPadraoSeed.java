@@ -19,19 +19,6 @@ public class PerguntasPadraoSeed implements CommandLineRunner {
     public void run(String... args) {
 
         List<PerguntaPadrao> perguntas = List.of(
-                // antigas
-                new PerguntaPadrao("Você possui quintal?", TipoPergunta.BOOLEAN),
-                new PerguntaPadrao("Reside em casa, apartamento ou outro?", TipoPergunta.TEXTO),
-                new PerguntaPadrao("Possui outros animais?", TipoPergunta.BOOLEAN),
-                new PerguntaPadrao("Todos os moradores concordam com a adoção?", TipoPergunta.BOOLEAN),
-                new PerguntaPadrao("Quantas horas o animal ficará sozinho por dia?", TipoPergunta.TEXTO),
-                new PerguntaPadrao("Já teve animais antes?", TipoPergunta.BOOLEAN),
-                new PerguntaPadrao("Possui condições financeiras para cuidados veterinários?", TipoPergunta.BOOLEAN),
-                new PerguntaPadrao("O animal terá acesso à área interna da casa?", TipoPergunta.BOOLEAN),
-                new PerguntaPadrao("Pretende vacinar e vermifugar regularmente?", TipoPergunta.BOOLEAN),
-                new PerguntaPadrao("Já teve algum animal perdido/fugido?", TipoPergunta.BOOLEAN),
-
-                // novas
                 new PerguntaPadrao("Você já teve animais de estimação antes?", TipoPergunta.BOOLEAN),
                 new PerguntaPadrao("Atualmente possui outros animais? Se sim, quantos e quais espécies?", TipoPergunta.TEXTO),
                 new PerguntaPadrao("Os animais que você possui são castrados e vacinados?", TipoPergunta.TEXTO),
@@ -46,8 +33,8 @@ public class PerguntasPadraoSeed implements CommandLineRunner {
                 new PerguntaPadrao("Todos os membros da família estão de acordo com a adoção?", TipoPergunta.BOOLEAN),
                 new PerguntaPadrao("Em caso de mudança, o que pretende fazer com o animal?", TipoPergunta.TEXTO),
                 new PerguntaPadrao("Está ciente de que o animal precisa ser castrado, vacinado e receber cuidados veterinários regulares?", TipoPergunta.BOOLEAN),
-                new PerguntaPadrao("Está disposto(a) a permitir uma visita pré e/ou pós-adoção da ONG?", TipoPergunta.BOOLEAN
-                ));
+                new PerguntaPadrao("Está disposto(a) a permitir uma visita pré e/ou pós-adoção da ONG?", TipoPergunta.BOOLEAN)
+        );
         if (repository.count() == 0) {
             repository.saveAll(perguntas);
         }

@@ -16,7 +16,7 @@
   gap: 107px;
 }
 
- /* FOTO */
+/* FOTO */
 
 .detalhes-foto-container {
   display: flex;
@@ -49,7 +49,7 @@
   font-family: "Inter", sans-serif;
 }
 
- /* INFORMAÇÕES */
+/* INFORMAÇÕES */
 
 .detalhes-informacoes {
   width: 603px;
@@ -71,7 +71,68 @@
   color: #374151;
 }
 
- /* CARDS */
+/* STATUS */
+
+.status-animal {
+  width: fit-content;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.status-bolinha {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-disponivel {
+  color: #22a447;
+}
+
+.status-disponivel .status-bolinha {
+  background-color: #22a447;
+}
+
+.status-adotado {
+  color: #d99a00;
+}
+
+.status-adotado .status-bolinha {
+  background-color: #d99a00;
+}
+
+.status-inativo {
+  color: #e53935;
+}
+
+.status-inativo .status-bolinha {
+  background-color: #e53935;
+}
+
+.status-em-andamento {
+  color: #f28c28;
+}
+
+.status-em-andamento .status-bolinha {
+  background-color: #f28c28;
+}
+
+.status-desconhecido {
+  color: #686868;
+}
+
+.status-desconhecido .status-bolinha {
+  background-color: #686868;
+}
+
+/* CARDS */
 
 .detalhes-grid {
   display: grid;
@@ -92,14 +153,11 @@
   min-height: 63px;
   padding: 8px 16px;
   box-sizing: border-box;
-
   background-color: #ffffff;
+  border: 1px solid transparent;
   border-radius: 20px;
-
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
-
   text-align: center;
-
   font-family: "Inter", sans-serif;
 }
 
@@ -120,33 +178,50 @@
   width: 100%;
 }
 
+/* CARD DA ONG */
+
+.info-card-ong {
+  cursor: pointer;
+  color: inherit;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.info-card-ong:hover {
+  border-color: #36c3ff;
+  box-shadow: 0px 5px 14px rgba(54, 195, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.info-card-ong p {
+  color: #36c3ff;
+  font-weight: 600;
+}
+
+/* HISTÓRICO */
+
 .historico-container {
   width: 100%;
   margin-top: 32px;
 }
 
- /* BOTÃO ADOTAR */
+/* BOTÃO ADOTAR */
 
 .botao-adotar {
   display: block;
-
   width: 209px;
   height: 59px;
-
   margin: 36px auto 0;
-
   border: none;
   border-radius: 40px;
-
   background-color: #36c3ff;
   color: #ffffff;
-
   font-family: "Inter", sans-serif;
   font-size: 24px;
   font-weight: 700;
-
   cursor: pointer;
-
   transition: background-color 0.2s ease;
 }
 
@@ -154,9 +229,10 @@
   background-color: #1ab0f0;
 }
 
- /* RESPONSIVIDADE */
+/* RESPONSIVIDADE */
 
 @media (max-width: 1200px) {
+
   .detalhes-container {
     padding: 32px 40px 40px;
   }
@@ -173,9 +249,14 @@
   .detalhes-informacoes {
     width: 520px;
   }
+
+  .info-card {
+    width: 230px;
+  }
 }
 
 @media (max-width: 1000px) {
+
   .detalhes-content {
     flex-direction: column;
     align-items: center;
@@ -190,9 +271,14 @@
   .detalhes-informacoes {
     width: min(603px, 90vw);
   }
+
+  .info-card {
+    width: 100%;
+  }
 }
 
 @media (max-width: 650px) {
+
   .detalhes-container {
     padding: 24px 20px 40px;
   }
@@ -216,5 +302,13 @@
   .detalhes-foto {
     width: 100%;
     height: 400px;
+  }
+
+  .botao-adotar {
+    width: 100%;
+  }
+
+  .info-card-ong {
+    width: 100%;
   }
 }

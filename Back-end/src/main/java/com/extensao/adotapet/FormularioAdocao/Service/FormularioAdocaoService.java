@@ -4,8 +4,8 @@ import com.extensao.adotapet.Animal.Animal;
 import com.extensao.adotapet.Animal.AnimalRepository;
 import com.extensao.adotapet.Enum.Status;
 import com.extensao.adotapet.Enum.StatusAdocao;
-import com.extensao.adotapet.FormularioAdocao.Dto.RespostaItemDTO;
-import com.extensao.adotapet.FormularioAdocao.Dto.RespostaRequestDTO;
+import com.extensao.adotapet.Enum.TipoUsuario;
+import com.extensao.adotapet.FormularioAdocao.Dto.*;
 import com.extensao.adotapet.FormularioAdocao.Entity.PerguntaPadrao;
 import com.extensao.adotapet.FormularioAdocao.Entity.RespostaPergunta;
 import com.extensao.adotapet.FormularioAdocao.Repository.PerguntaPadraoRepository;
@@ -17,6 +17,8 @@ import com.extensao.adotapet.exception.BusinessException;
 import com.extensao.adotapet.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FormularioAdocaoService {
@@ -33,6 +35,10 @@ public class FormularioAdocaoService {
     private RespostaAdocaoRepository respostaAdocaoRepository;
 
     public void responder (RespostaRequestDTO dto, Usuario usuario) {
+
+        if (usuario.getTipoUsuario() != TipoUsuario.ROLE_ADOTANTE) {
+            throw new BusinessException("Apenas adotantes podem solicitar uma adoção");
+        }
 
         Animal animal = animalRepository.findById(dto.getAnimalId())
                 .orElseThrow(() -> new NotFoundException("Animal não encontrado"));
@@ -67,12 +73,18 @@ public class FormularioAdocaoService {
         respostaAdocaoRepository.save(respostaAdocao);
     }
 
-    public void atualizarStatus(Long idAdocao, StatusAdocao status) {
+    public void atualizarStatus(Long idAdocao, StatusAdocao status, Usuario ong) {
 
         RespostaAdocao adocao = respostaAdocaoRepository.findById(idAdocao)
                 .orElseThrow(() -> new NotFoundException("Candidatura não encontrada"));
 
         Animal animal = adocao.getAnimal();
+
+        Usuario donoAnimal = animal.getOng();
+
+        if (donoAnimal.getId() != ong.getId()) {
+            throw new BusinessException("Você não tem acesso a esta candidatura");
+        }
 
         if (adocao.getStatus() != StatusAdocao.EM_ANALISE) {
             throw new BusinessException("Essa candidatura já foi processada");
@@ -91,4 +103,114 @@ public class FormularioAdocaoService {
         }
     }
 
+    public List<AdocaoOngDTO> listarAdocoesDaOng(Usuario ong) {
+
+        return respostaAdocaoRepository.findByAnimalOng(ong)
+                .stream()
+                .map(adocao -> {
+
+                    AdocaoOngDTO dto = new AdocaoOngDTO();
+
+                    dto.setId(adocao.getId());
+
+                    dto.setAnimalId(adocao.getAnimal().getId());
+                    dto.setAnimalNome(adocao.getAnimal().getNome());
+                    dto.setAnimalFoto(adocao.getAnimal().getFotos());
+
+                    dto.setUsuarioId(adocao.getUsuario().getId());
+                    dto.setUsuarioNome(adocao.getUsuario().getNome());
+                    dto.setUsuarioEmail(adocao.getUsuario().getEmail());
+                    dto.setUsuarioEndereco(adocao.getUsuario().getEndereco());
+                    dto.setUsuarioTelefone(adocao.getUsuario().getTelefone());
+
+                    dto.setDataResposta(adocao.getDataResposta());
+                    dto.setStatus(adocao.getStatus());
+
+                    return dto;
+                })
+                .toList();
+    }
+
+
+    public AdocaoDetalhesDTO buscarDetalhesDaAdocao(Long idAdocao, Usuario usuario) {
+
+        RespostaAdocao adocao = respostaAdocaoRepository.findById(idAdocao)
+                .orElseThrow(() -> new NotFoundException("Candidatura não encontrada"));
+
+        Usuario donoAnimal = adocao.getAnimal().getOng();
+
+        if (usuario.getTipoUsuario() == TipoUsuario.ROLE_ONG) {
+
+            if (donoAnimal.getId() != usuario.getId()) {
+                throw new BusinessException("Você não tem acesso a esta candidatura");
+            }
+
+        } else if (usuario.getTipoUsuario() == TipoUsuario.ROLE_ADOTANTE) {
+
+            if (adocao.getUsuario().getId() != usuario.getId()) {
+                throw new BusinessException("Você não tem acesso a esta candidatura");
+            }
+
+        } else {
+            throw new BusinessException("Você não tem acesso a esta candidatura");
+        }
+
+        AdocaoDetalhesDTO dto = new AdocaoDetalhesDTO();
+
+        dto.setId(adocao.getId());
+
+        dto.setAnimalId(adocao.getAnimal().getId());
+        dto.setAnimalNome(adocao.getAnimal().getNome());
+        dto.setAnimalFoto(adocao.getAnimal().getFotos());
+        dto.setAnimalIdade(adocao.getAnimal().getIdade());
+        dto.setAnimalSexo(adocao.getAnimal().getSexo());
+
+        dto.setUsuarioId(adocao.getUsuario().getId());
+        dto.setUsuarioNome(adocao.getUsuario().getNome());
+        dto.setUsuarioEmail(adocao.getUsuario().getEmail());
+        dto.setUsuarioDataNascimento(adocao.getUsuario().getDataNascimento());
+        dto.setUsuarioEndereco(adocao.getUsuario().getEndereco());
+
+        dto.setDataResposta(adocao.getDataResposta());
+        dto.setStatus(adocao.getStatus());
+
+        List<RespostaItemDTO> respostas = adocao.getRespostas()
+                .stream()
+                .map(resposta -> {
+
+                    RespostaItemDTO item = new RespostaItemDTO();
+
+                    item.setPerguntaId(resposta.getPergunta().getId());
+                    item.setResposta(resposta.getResposta());
+
+                    return item;
+                })
+                .toList();
+
+        dto.setRespostas(respostas);
+
+        return dto;
+    }
+
+    public List<AdocaoUsuarioDTO> listarAdocoesDoUsuario(Usuario usuario) {
+
+        return respostaAdocaoRepository.findByUsuario(usuario)
+                .stream()
+                .map(adocao -> {
+
+                    AdocaoUsuarioDTO dto = new AdocaoUsuarioDTO();
+
+                    dto.setId(adocao.getId());
+
+                    dto.setAnimalId(adocao.getAnimal().getId());
+                    dto.setAnimalNome(adocao.getAnimal().getNome());
+                    dto.setAnimalFoto(adocao.getAnimal().getFotos());
+
+                    dto.setDataResposta(adocao.getDataResposta());
+                    dto.setStatus(adocao.getStatus());
+
+                    return dto;
+                })
+                .toList();
+    }
 }

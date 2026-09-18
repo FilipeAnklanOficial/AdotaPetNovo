@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Header } from "../../components/Header";
 import { apiService } from "../../services/ApiService";
 import "./DetalhesAnimal.css";
@@ -26,6 +26,7 @@ interface Animal {
 
 export default function DetalhesAnimal() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [animal, setAnimal] = useState<Animal | null>(null);
   const [erro, setErro] = useState("");
@@ -49,6 +50,44 @@ export default function DetalhesAnimal() {
 
     buscarAnimal();
   }, [id]);
+
+  function obterStatusTexto(status: string) {
+    switch (status) {
+      case "DISPONIVEL":
+        return "Disponível";
+
+      case "ADOTADO":
+        return "Adotado";
+
+      case "INATIVO":
+        return "Inativo";
+
+      case "EM_ANDAMENTO":
+        return "Em andamento";
+
+      default:
+        return status || "Não informado";
+    }
+  }
+
+  function obterClasseStatus(status: string) {
+    switch (status) {
+      case "DISPONIVEL":
+        return "status-disponivel";
+
+      case "ADOTADO":
+        return "status-adotado";
+
+      case "INATIVO":
+        return "status-inativo";
+
+      case "EM_ANDAMENTO":
+        return "status-em-andamento";
+
+      default:
+        return "status-desconhecido";
+    }
+  }
 
   if (carregando) {
     return (
@@ -75,108 +114,187 @@ export default function DetalhesAnimal() {
   }
 
   return (
-  <div className="detalhes-page">
-    <Header />
+    <div className="detalhes-page">
 
-    <main className="detalhes-container">
-      <div className="detalhes-content">
+      <Header />
 
-        {/* FOTO */}
-        <div className="detalhes-foto-container">
-          <div className="detalhes-foto">
-            {animal.fotos ? (
-              <img
-                src={animal.fotos}
-                alt={`Foto de ${animal.nome}`}
-              />
-            ) : (
-              <div className="sem-foto">
-                Sem foto disponível
+      <main className="detalhes-container">
+
+        <div className="detalhes-content">
+
+          {/* FOTO */}
+
+          <div className="detalhes-foto-container">
+
+            <div className="detalhes-foto">
+
+              {animal.fotos ? (
+                <img
+                  src={animal.fotos}
+                  alt={`Foto de ${animal.nome}`}/>
+              ) : (
+                <div className="sem-foto">
+                  Sem foto disponível
+                </div>
+              )}
+
+            </div>
+
+          </div>
+
+          {/* INFORMAÇÕES */}
+
+          <div className="detalhes-informacoes">
+
+            {/* STATUS */}
+
+            <div className={`status-animal ${obterClasseStatus(animal.status)}`}>
+
+              <span className="status-bolinha"/>
+
+              <span>
+                {obterStatusTexto(animal.status)}
+              </span>
+
+            </div>
+
+            <h1>
+              {animal.nome}
+            </h1>
+
+            <p className="detalhes-descricao">
+              {animal.comportamento ||
+                "Nenhuma informação sobre o comportamento."}
+            </p>
+
+            {/* CARDS */}
+
+            <div className="detalhes-grid">
+
+              {/* COLUNA ESQUERDA */}
+
+              <div className="detalhes-coluna">
+
+                <InfoCard
+                  titulo="Espécie"
+                  valor={animal.especie}
+                />
+
+                <InfoCard
+                  titulo="Raça"
+                  valor={animal.raca}
+                />
+
+                <InfoCard
+                  titulo="Idade"
+                  valor={animal.idade}
+                />
+
+                <InfoCard
+                  titulo="Sexo"
+                  valor={animal.sexo}
+                />
+
+                <InfoCard
+                  titulo="Porte"
+                  valor={animal.porte}
+                />
+
               </div>
+
+              {/* COLUNA DIREITA */}
+
+              <div className="detalhes-coluna">
+
+                <InfoCard
+                  titulo="Cor"
+                  valor={animal.cor}
+                />
+
+                <InfoCard
+                  titulo="Localização"
+                  valor={animal.localizacao}
+                />
+
+                <InfoCard
+                  titulo="Possui Microchip?"
+                  valor={animal.possuiChip ? "Sim" : "Não"}
+                />
+
+                <InfoCard
+                  titulo="Vacinado?"
+                  valor={animal.vacinado ? "Sim" : "Não"}
+                />
+
+                <button
+                  type="button"
+                  className="info-card info-card-ong"
+                  onClick={() =>
+                    navigate(`/perfil/ong/${animal.ongId}`)
+                  }>
+
+                  <strong>
+                    ONG responsável
+                  </strong>
+
+                  <p>
+                    {animal.nomeOng || "ONG não informada"}
+                  </p>
+
+                </button>
+
+              </div>
+
+            </div>
+
+            {/* HISTÓRICO */}
+
+            <div className="historico-container">
+
+              <InfoCard
+                titulo="Histórico de saúde"
+                valor={animal.historicoSaude}
+                grande
+              />
+
+            </div>
+
+            {/* BOTÃO ADOTAR */}
+
+            {animal.status === "DISPONIVEL" && (
+              <button
+                type="button"
+                className="botao-adotar"
+                onClick={() => {
+
+                  const token = localStorage.getItem("token");
+
+                  if (!token) {
+
+                    localStorage.setItem(
+                      "rotaDepoisLogin",
+                      `/adocao/${animal.id}`
+                    );
+
+                    navigate("/login");
+
+                    return;
+                  }
+
+                  navigate(`/adocao/${animal.id}`);
+                }}>
+                Adotar
+              </button>
             )}
+
           </div>
+
         </div>
 
-        {/* INFORMAÇÕES */}
-        <div className="detalhes-informacoes">
+      </main>
 
-          <h1>{animal.nome}</h1>
-
-          <p className="detalhes-descricao">
-            {animal.comportamento}
-          </p>
-
-          <div className="detalhes-grid">
-
-            {/* COLUNA ESQUERDA */}
-            <div className="detalhes-coluna">
-              <InfoCard
-                titulo="Raça"
-                valor={animal.raca}
-              />
-
-              <InfoCard
-                titulo="Idade"
-                valor={animal.idade}
-              />
-
-              <InfoCard
-                titulo="Localização"
-                valor={animal.localizacao}
-              />
-
-              <InfoCard
-                titulo="Possui Microchip?"
-                valor={animal.possuiChip ? "Sim" : "Não"}
-              />
-            </div>
-
-            {/* COLUNA DIREITA */}
-            <div className="detalhes-coluna">
-              <InfoCard
-                titulo="Sexo"
-                valor={animal.sexo}
-              />
-
-              <InfoCard
-                titulo="Porte do animal"
-                valor={animal.porte}
-              />
-
-              <InfoCard
-                titulo="Cor"
-                valor={animal.cor}
-              />
-
-              <InfoCard
-                titulo="ONG de resgate"
-                valor={animal.nomeOng}
-              />
-            </div>
-
-          </div>
-
-          {/* HISTÓRICO */}
-          <div className="historico-container">
-            <InfoCard
-              titulo="Histórico de saúde"
-              valor={animal.historicoSaude}
-              grande
-            />
-          </div>
-
-          <button
-            type="button"
-            className="botao-adotar"
-          >
-            Adotar
-          </button>
-
-        </div>
-      </div>
-    </main>
-  </div>
-);
+    </div>
+  );
 }
 
 interface InfoCardProps {
@@ -190,13 +308,21 @@ function InfoCard({
   valor,
   grande = false,
 }: InfoCardProps) {
+
   return (
-    <div className={`info-card ${grande ? "info-card-grande" : ""}`}>
-      <strong>{titulo}</strong>
+    <div
+      className={`info-card ${
+        grande ? "info-card-grande" : ""
+      }`}>
+
+      <strong>
+        {titulo}
+      </strong>
 
       <p>
         {valor || "Não informado"}
       </p>
+
     </div>
   );
 }

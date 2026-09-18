@@ -6,8 +6,17 @@ import com.extensao.adotapet.Usuario.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RespostaAdocaoRepository
         extends JpaRepository<RespostaAdocao, Long> {
+
     boolean existsByUsuarioAndAnimal(Usuario usuario, Animal animal);
+
+    List<RespostaAdocao> findByAnimalOng(Usuario ong);
+
+    boolean existsByUsuarioAndAnimalOng(Usuario usuario, Usuario ong);
+
+    List<RespostaAdocao> findByUsuario(Usuario usuario);
 }
