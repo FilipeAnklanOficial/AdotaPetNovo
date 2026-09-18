@@ -154,15 +154,44 @@ export default function FormularioAdocao() {
                     {index + 1}. {pergunta.texto}
                   </label>
 
-                  <textarea
-                    value={respostaAtual}
-                    onChange={(e) =>
-                      alterarResposta(pergunta.id, e.target.value)
-                    }
-                    placeholder="Digite sua resposta..."
-                    rows={4}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-[#36C3FF] resize-none"
-                  />
+                  {pergunta.tipo === "BOOLEAN" ? (
+                    <div className="flex gap-6">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="radio"
+                          name={`pergunta-${pergunta.id}`}
+                          value="Sim"
+                          checked={respostaAtual === "Sim"}
+                          onChange={(e) =>
+                            alterarResposta(pergunta.id, e.target.value)
+                          }
+                          className="w-4 h-4"/>
+                        <span>Sim</span>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="radio"
+                          name={`pergunta-${pergunta.id}`}
+                          value="Não"
+                          checked={respostaAtual === "Não"}
+                          onChange={(e) =>
+                            alterarResposta(pergunta.id, e.target.value)
+                          }
+                          className="w-4 h-4"/>
+                        <span>Não</span>
+                      </label>
+                    </div>
+                  ) : (
+                    <textarea
+                      value={respostaAtual}
+                      onChange={(e) =>
+                        alterarResposta(pergunta.id, e.target.value)
+                      }
+                      placeholder="Digite sua resposta..."
+                      rows={4}
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-[#36C3FF] resize-none"/>
+                  )}
                 </div>
               );
             })}
