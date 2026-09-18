@@ -70,10 +70,7 @@ public class AnimalService {
                 .toList();
     }
 
-    public Page<AnimalResponseDTO> buscar(
-            AnimalFiltroDTO filtro,
-            Pageable pageable
-    ) {
+    public Page<AnimalResponseDTO> buscar(AnimalFiltroDTO filtro, Pageable pageable) {
 
         Specification<Animal> spec = Specification
                 .where(AnimalSpecification.disponivel());
