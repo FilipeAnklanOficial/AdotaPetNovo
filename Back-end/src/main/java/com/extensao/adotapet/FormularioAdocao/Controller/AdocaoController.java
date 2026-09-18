@@ -4,6 +4,7 @@ import com.extensao.adotapet.Enum.StatusAdocao;
 import com.extensao.adotapet.FormularioAdocao.Dto.AdocaoDetalhesDTO;
 import com.extensao.adotapet.FormularioAdocao.Dto.RespostaRequestDTO;
 import com.extensao.adotapet.FormularioAdocao.Dto.AdocaoOngDTO;
+import com.extensao.adotapet.FormularioAdocao.Dto.AdocaoUsuarioDTO;
 import com.extensao.adotapet.FormularioAdocao.Service.FormularioAdocaoService;
 import com.extensao.adotapet.Usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,16 @@ public class AdocaoController {
         Usuario usuario = (Usuario) auth.getPrincipal();
 
         return respostaService.buscarDetalhesDaAdocao(id, usuario);
+    }
+
+    @GetMapping("/meus-formularios")
+    public List<AdocaoUsuarioDTO> listarMinhasRespostas() {
+
+        Authentication auth =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        return respostaService.listarAdocoesDoUsuario(usuario);
     }
 }

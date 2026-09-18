@@ -15,4 +15,8 @@ public interface RespostaAdocaoRepository
     boolean existsByUsuarioAndAnimal(Usuario usuario, Animal animal);
 
     List<RespostaAdocao> findByAnimalOng(Usuario ong);
+
+    boolean existsByUsuarioAndAnimalOng(Usuario usuario, Usuario ong);
+
+    List<RespostaAdocao> findByUsuario(Usuario usuario);
 }

@@ -1,91 +1,57 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-
 import { apiService } from "../../services/ApiService";
-
 import { Header } from "../../components/Header";
-
+import { SidebarOng } from "../../components/SidebarOng";
 import "./GestaoOng.css";
 
 // ─── Enums ────────────────────────────────────────────────────────────────────
 
 type Especie = "CACHORRO" | "GATO";
-
 type Porte = "PEQUENO" | "MEDIO" | "GRANDE";
-
 type Sexo = "MACHO" | "FEMEA";
-
 type Status = "DISPONIVEL" | "INATIVO" | "ADOTADO";
-
 type Idade = "FILHOTE" | "ADULTO" | "IDOSO";
 
 // ─── DTO de requisição ────────────────────────────────────────────────────────
 
 interface AnimalRequestDTO {
-
   nome: string;
-
   raca: string;
-
   idade: Idade;
-
   historicoSaude: string;
-
   comportamento: string;
-
   fotos: string;
-
   possuiChip: boolean;
-
   localizacao: string;
-
   vacinado: boolean;
-
   especie: Especie;
-
   porte: Porte;
-
   sexo: Sexo;
-
   status: Status;
-
   cor: string;
 }
 
 // ─── Estado do formulário ─────────────────────────────────────────────────────
 
 interface FormState {
-
   nome: string;
-
   raca: string;
-
   idade: Idade | "";
-
   historicoSaude: string;
-
   comportamento: string;
-
   possuiChip: string;
-
   localizacao: string;
-
   vacinado: string;
-
   especie: Especie | "";
-
   porte: Porte | "";
-
   sexo: Sexo | "";
-
   cor: string;
 }
 
 // ─── Props dos cards ──────────────────────────────────────────────────────────
 
 interface InfoCardProps {
-
   label: string;
-
   children: React.ReactNode;
 }
 
@@ -95,7 +61,6 @@ function InfoCard({
   label,
   children,
 }: InfoCardProps) {
-
   return (
     <div className="bg-white w-[263px] min-h-[90px] rounded-[20px] shadow-[0px_4px_8px_rgba(0,0,0,0.25)] flex flex-col justify-center items-center py-3">
 
@@ -125,38 +90,24 @@ export default function RegistrarAnimal() {
   // ─── Estado do formulário ──────────────────────────────────────────────────
 
   const [form, setForm] = useState<FormState>({
-
     nome: "",
-
     raca: "",
-
     idade: "",
-
     historicoSaude: "",
-
     comportamento: "",
-
     possuiChip: "",
-
     localizacao: "",
-
     vacinado: "",
-
     especie: "",
-
     porte: "",
-
     sexo: "",
-
     cor: "",
   });
 
   // ─── Estado de feedback ────────────────────────────────────────────────────
 
   const [loading, setLoading] = useState(false);
-
   const [erro, setErro] = useState<string | null>(null);
-
   const [sucesso, setSucesso] = useState(false);
 
   // ─── Handler da foto ───────────────────────────────────────────────────────
@@ -186,7 +137,6 @@ export default function RegistrarAnimal() {
   };
 
   const removerFoto = (): void => {
-
     setImagemGrande(null);
   };
 
@@ -217,7 +167,6 @@ export default function RegistrarAnimal() {
     e.preventDefault();
 
     setErro(null);
-
     setSucesso(false);
 
     // ─── Validações ──────────────────────────────────────────────────────────
@@ -284,27 +233,36 @@ export default function RegistrarAnimal() {
 
       idade: form.idade as Idade,
 
-      historicoSaude: form.historicoSaude.trim(),
+      historicoSaude:
+        form.historicoSaude.trim(),
 
-      comportamento: form.comportamento.trim(),
+      comportamento:
+        form.comportamento.trim(),
 
       fotos: fotoPrincipal,
 
-      possuiChip: form.possuiChip === "true",
+      possuiChip:
+        form.possuiChip === "true",
 
-      localizacao: form.localizacao.trim(),
+      localizacao:
+        form.localizacao.trim(),
 
-      vacinado: form.vacinado === "true",
+      vacinado:
+        form.vacinado === "true",
 
-      especie: form.especie as Especie,
+      especie:
+        form.especie as Especie,
 
-      porte: form.porte as Porte,
+      porte:
+        form.porte as Porte,
 
-      sexo: form.sexo as Sexo,
+      sexo:
+        form.sexo as Sexo,
 
       status: "DISPONIVEL",
 
-      cor: form.cor.trim(),
+      cor:
+        form.cor.trim(),
     };
 
     // ─── Envio para o backend ────────────────────────────────────────────────
@@ -313,7 +271,10 @@ export default function RegistrarAnimal() {
 
       setLoading(true);
 
-      await apiService.post("/animal", payload);
+      await apiService.post(
+        "/animal",
+        payload
+      );
 
       setSucesso(true);
 
@@ -330,9 +291,11 @@ export default function RegistrarAnimal() {
         axiosError?.response?.data
       );
 
-      const data = axiosError?.response?.data;
+      const data =
+        axiosError?.response?.data;
 
-      let msg = "Erro ao cadastrar animal.";
+      let msg =
+        "Erro ao cadastrar animal.";
 
       if (typeof data === "string") {
 
@@ -343,7 +306,8 @@ export default function RegistrarAnimal() {
         data !== null
       ) {
 
-        const obj = data as Record<string, unknown>;
+        const obj =
+          data as Record<string, unknown>;
 
         msg = String(
           obj.message ??
@@ -373,37 +337,13 @@ export default function RegistrarAnimal() {
 
       <div className="gestao-ong-page">
 
-        <aside className="gestao-sidebar">
-
-          <a href="/">
-            Página Inicial
-          </a>
-
-          <a href="/gestao-ong">
-            Painel de Gestão
-          </a>
-
-          <a href="/registrar-animal">
-            Cadastrar Animais
-          </a>
-
-          <a href="/animais-cadastrados">
-            Animais Cadastrados
-          </a>
-
-          <a href="/adocoes-recebidas">
-            Adoções Recebidas
-          </a>
-
-          <a href="#">
-            Editar perfil
-          </a>
-
-        </aside>
+        <SidebarOng />
 
         <main className="container-animais">
 
-          <h1>Cadastrar Animal</h1>
+          <h1>
+            Cadastrar Animal
+          </h1>
 
           <form
             onSubmit={handleSubmit}
@@ -411,7 +351,7 @@ export default function RegistrarAnimal() {
 
             <div className="flex gap-[50px] items-start">
 
-              {/* ─── Foto ─────────────────────────────────────────────── */}
+              {/* FOTO */}
 
               <div className="w-[400px] shrink-0">
 
@@ -439,7 +379,6 @@ export default function RegistrarAnimal() {
                       </span>
 
                     </label>
-
                   )}
 
                   <input
@@ -473,12 +412,11 @@ export default function RegistrarAnimal() {
                     </button>
 
                   </div>
-
                 )}
 
               </div>
 
-              {/* ─── Informações ─────────────────────────────────────── */}
+              {/* INFORMAÇÕES */}
 
               <div className="flex-1">
 
@@ -525,7 +463,7 @@ export default function RegistrarAnimal() {
 
                 </div>
 
-                {/* ─── Cards de informações ─────────────────────────── */}
+                {/* CARDS */}
 
                 <div className="grid grid-cols-2 gap-5 mt-5 font-[Inter,sans-serif]">
 
@@ -551,8 +489,12 @@ export default function RegistrarAnimal() {
                         onChange={handleChange}
                         className={inputSelectClass}>
 
-                        <option value="" disabled>
+                        <option
+                          value=""
+                          disabled>
+
                           Selecione
+
                         </option>
 
                         <option value="FILHOTE">
@@ -579,8 +521,12 @@ export default function RegistrarAnimal() {
                         onChange={handleChange}
                         className={inputSelectClass}>
 
-                        <option value="" disabled>
+                        <option
+                          value=""
+                          disabled>
+
                           Selecione
+
                         </option>
 
                         <option value="CACHORRO">
@@ -603,8 +549,12 @@ export default function RegistrarAnimal() {
                         onChange={handleChange}
                         className={inputSelectClass}>
 
-                        <option value="" disabled>
+                        <option
+                          value=""
+                          disabled>
+
                           Selecione
+
                         </option>
 
                         <option value="true">
@@ -643,8 +593,12 @@ export default function RegistrarAnimal() {
                         onChange={handleChange}
                         className={inputSelectClass}>
 
-                        <option value="" disabled>
+                        <option
+                          value=""
+                          disabled>
+
                           Selecione
+
                         </option>
 
                         <option value="MACHO">
@@ -667,8 +621,12 @@ export default function RegistrarAnimal() {
                         onChange={handleChange}
                         className={inputSelectClass}>
 
-                        <option value="" disabled>
+                        <option
+                          value=""
+                          disabled>
+
                           Selecione
+
                         </option>
 
                         <option value="PEQUENO">
@@ -707,8 +665,12 @@ export default function RegistrarAnimal() {
                         onChange={handleChange}
                         className={inputSelectClass}>
 
-                        <option value="" disabled>
+                        <option
+                          value=""
+                          disabled>
+
                           Selecione
+
                         </option>
 
                         <option value="true">
@@ -727,13 +689,15 @@ export default function RegistrarAnimal() {
 
                 </div>
 
-                {/* ─── Botões ────────────────────────────────────────── */}
+                {/* BOTÕES */}
 
                 <div className="flex justify-center gap-5 mt-[38px] mb-10">
 
                   <button
                     type="button"
-                    onClick={() => window.location.href = "/gestao-ong"}
+                    onClick={() =>
+                      window.location.href = "/gestao-ong"
+                    }
                     className="w-[220px] h-[55px] text-[#36c3ff] bg-white border-2 border-[#36c3ff] rounded-[40px] font-[Inter,sans-serif] font-bold text-lg cursor-pointer hover:bg-[#eef9ff] transition">
 
                     Cancelar
@@ -763,7 +727,7 @@ export default function RegistrarAnimal() {
 
       </div>
 
-      {/* ─── Popup de erro ─────────────────────────────────────────────── */}
+      {/* POPUP DE ERRO */}
 
       {erro && (
 
@@ -795,10 +759,9 @@ export default function RegistrarAnimal() {
           </div>
 
         </div>
-
       )}
 
-      {/* ─── Popup de sucesso ──────────────────────────────────────────── */}
+      {/* POPUP DE SUCESSO */}
 
       {sucesso && (
 
@@ -820,7 +783,9 @@ export default function RegistrarAnimal() {
 
             <button
               type="button"
-              onClick={() => window.location.href = "/gestao-ong"}
+              onClick={() =>
+                window.location.href = "/gestao-ong"
+              }
               className="w-[180px] h-[50px] bg-[#36c3ff] text-white rounded-[40px] font-bold text-lg hover:bg-[#1ab0f0] transition">
 
               OK
@@ -830,7 +795,6 @@ export default function RegistrarAnimal() {
           </div>
 
         </div>
-
       )}
 
     </>

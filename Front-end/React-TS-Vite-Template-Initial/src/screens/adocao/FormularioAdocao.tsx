@@ -29,11 +29,13 @@ const opcoesPergunta: Record<number, string[]> = {
 export default function FormularioAdocao() {
   const { animalId } = useParams();
   const navigate = useNavigate();
+  
 
   const [perguntas, setPerguntas] = useState<Pergunta[]>([]);
   const [respostas, setRespostas] = useState<Resposta[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [enviando, setEnviando] = useState(false);
+  const [mensagemErro, setMensagemErro] = useState("");
 
   useEffect(() => {
     carregarPerguntas();
@@ -94,7 +96,7 @@ export default function FormularioAdocao() {
     );
 
     if (perguntasSemResposta.length > 0) {
-      alert("Responda todas as perguntas antes de enviar.");
+      setMensagemErro("Responda todas as perguntas antes de enviar.");
       return;
     }
 
@@ -109,9 +111,16 @@ export default function FormularioAdocao() {
 
       alert("Formulário enviado com sucesso!");
       navigate(`/animais/${animalId}`);
-    } catch (error) {
-      console.error(error);
-      alert("Não foi possível enviar o formulário.");
+    } catch (error: any) {
+
+      console.error("ERRO COMPLETO:", error);
+
+      const mensagem =
+        error.response?.data?.error ||
+        "Não foi possível enviar o formulário.";
+
+      setMensagemErro(mensagem);
+
     } finally {
       setEnviando(false);
     }
@@ -251,13 +260,34 @@ export default function FormularioAdocao() {
                   : "Enviar formulário de adoção"}
 
               </button>
-
             </div>
-
           </form>
-
         </div>
       </div>
+      {mensagemErro && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+          <div className="bg-white w-full max-w-md rounded-2xl p-8 text-center shadow-xl">
+
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              Não foi possível enviar
+            </h2>
+
+            <p className="text-gray-600 mb-6">
+              {mensagemErro}
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setMensagemErro("")}
+              className="bg-[#36C3FF] hover:bg-[#22b5f2] text-white font-semibold px-6 py-3 rounded-xl transition">
+              OK
+            </button>
+
+          </div>
+
+        </div>
+      )}
     </div>
   );
 }

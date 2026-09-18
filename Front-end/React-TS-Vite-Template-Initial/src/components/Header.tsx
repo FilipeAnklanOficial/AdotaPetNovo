@@ -1,5 +1,5 @@
 import { User } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import logoMelhor from "../images/logoMelhor.png";
 
@@ -8,19 +8,45 @@ import { Button } from "./ui/button";
 export const Header = (): JSX.Element => {
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  const irParaSecao = (secao: string) => {
+
+    if (location.pathname === "/") {
+
+      document.getElementById(secao)?.scrollIntoView({
+        behavior: "smooth"
+      });
+
+      return;
+    }
+
+    navigate("/");
+
+    setTimeout(() => {
+
+      document.getElementById(secao)?.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }, 100);
+
+  };
+
   const token = localStorage.getItem("token");
   const tipoUsuario = localStorage.getItem("tipoUsuario");
+  
 
   const estaLogado = !!token;
 
-  const handlePerfil = () => {
+  function handlePerfil() {
     if (tipoUsuario === "ROLE_ONG") {
       navigate("/gestao-ong");
       return;
     }
 
-    navigate("/animais");
-  };
+    navigate("/perfil");
+  }
 
   const handleSair = () => {
     localStorage.removeItem("token");
@@ -50,12 +76,20 @@ export const Header = (): JSX.Element => {
 
             <a
               href="#sobre"
+              onClick={(event) => {
+                event.preventDefault();
+                irParaSecao("sobre");
+              }}
               className="text-black hover:underline font-mono">
               Sobre
             </a>
 
             <a
               href="#faq"
+              onClick={(event) => {
+                event.preventDefault();
+                irParaSecao("faq");
+              }}
               className="text-black hover:underline font-mono">
               F.A.Q
             </a>

@@ -7,14 +7,35 @@ import logoMelhor from "../../images/logoMelhor.png";
 import pessoaEcachorro from "../../images/pessoaEcachorro.png";
 import pessoas from "../../images/pessoas.png";
 import circuloPessoas from "../../images/circuloPessoas.png";
+import { useState } from "react";
+
+
 
 export const HomePage = (): JSX.Element => {
+
+  const [mostrarPopupLogin, setMostrarPopupLogin] = useState(false);
   return (
     <div className="home-page">
       {/* HEADER */}
       <header className="home-header">
         <nav className="home-nav">
-          <a href="/login">Entrar</a>
+          <a
+            href="/login"
+            onClick={(event) => {
+
+              const token = localStorage.getItem("token");
+
+              if (token) {
+
+                event.preventDefault();
+
+                setMostrarPopupLogin(true);
+
+              }
+
+            }}>
+            Entrar
+          </a>
 
           <a href="/animais">Adotar</a>
 
@@ -208,6 +229,43 @@ export const HomePage = (): JSX.Element => {
           </div>
         </div>
       </section>
+      {mostrarPopupLogin && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white w-full max-w-md rounded-2xl p-8 text-center shadow-xl">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              Você já está logado
+            </h2>
+
+            <p className="text-gray-600 mb-6">
+              Você já possui uma sessão ativa no Adota Pet.
+            </p>
+
+            <div className="flex justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => setMostrarPopupLogin(false)}
+                className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold px-6 py-3 rounded-xl transition">
+                Fechar
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const tipoUsuario = localStorage.getItem("tipoUsuario");
+                  setMostrarPopupLogin(false);
+                  if (tipoUsuario === "ROLE_ONG") {
+                    window.location.href = "/gestao-ong";
+                    return;
+                  }
+                  window.location.href = "/animais";
+                }}
+                className="bg-[#36C3FF] hover:bg-[#22b5f2] text-white font-semibold px-6 py-3 rounded-xl transition">
+                Ir para meu perfil
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

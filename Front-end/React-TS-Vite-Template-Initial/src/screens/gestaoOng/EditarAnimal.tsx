@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-
 import { useParams } from "react-router-dom";
-
 import { apiService } from "../../services/ApiService";
-
 import { Header } from "../../components/Header";
-
+import { SidebarOng } from "../../components/SidebarOng";
 import "./GestaoOng.css";
 
 interface Animal {
@@ -27,22 +24,20 @@ interface Animal {
 }
 
 export function EditarAnimal() {
-
   const { id } = useParams();
 
-  const [animal, setAnimal] = useState<Animal | null>(null);
+  const [animal, setAnimal] =
+    useState<Animal | null>(null);
 
   const [erro, setErro] = useState("");
-
   const [mensagem, setMensagem] = useState("");
 
   useEffect(() => {
-
     async function carregarAnimal() {
-
       try {
-
-        const response = await apiService.get(`/animal/${id}`);
+        const response = await apiService.get(
+          `/animal/${id}`
+        );
 
         const animalCarregado = response.data;
 
@@ -50,34 +45,30 @@ export function EditarAnimal() {
           animalCarregado.status !== "DISPONIVEL" &&
           animalCarregado.status !== "EM_ANDAMENTO"
         ) {
-
           setMensagem(
             `Não é possível editar um animal com status ${formatarStatus(animalCarregado.status)}.`
           );
-
           return;
         }
 
         setAnimal(animalCarregado);
-
       } catch (error) {
+        console.error(
+          "Erro ao carregar animal:",
+          error
+        );
 
-        console.error("Erro ao carregar animal:", error);
-
-        setErro("Não foi possível carregar os dados do animal.");
-
+        setErro(
+          "Não foi possível carregar os dados do animal."
+        );
       }
-
     }
 
     carregarAnimal();
-
   }, [id]);
 
   function formatarStatus(status: string): string {
-
     switch (status) {
-
       case "DISPONIVEL":
         return "Disponível";
 
@@ -92,16 +83,13 @@ export function EditarAnimal() {
 
       default:
         return status;
-
     }
-
   }
 
   function atualizarCampo(
     campo: keyof Animal,
     valor: string | boolean
   ) {
-
     if (!animal) {
       return;
     }
@@ -110,31 +98,33 @@ export function EditarAnimal() {
       ...animal,
       [campo]: valor
     });
-
   }
 
   async function salvarAlteracoes() {
-
     if (!animal) {
       return;
     }
 
     try {
-
-      await apiService.put(`/animal/${animal.id}`, animal);
+      await apiService.put(
+        `/animal/${animal.id}`,
+        animal
+      );
 
       alert("Animal atualizado com sucesso!");
 
-      window.location.href = "/animais-cadastrados";
-
+      window.location.href =
+        "/animais-cadastrados";
     } catch (error) {
+      console.error(
+        "Erro ao atualizar animal:",
+        error
+      );
 
-      console.error("Erro ao atualizar animal:", error);
-
-      alert("Não foi possível atualizar o animal.");
-
+      alert(
+        "Não foi possível atualizar o animal."
+      );
     }
-
   }
 
   return (
@@ -143,33 +133,7 @@ export function EditarAnimal() {
 
       <div className="gestao-ong-page">
 
-        <aside className="gestao-sidebar">
-
-          <a href="/">
-            Página Inicial
-          </a>
-
-          <a href="/gestao-ong">
-            Painel de Gestão
-          </a>
-
-          <a href="/registrar-animal">
-            Cadastrar Animais
-          </a>
-
-          <a href="/animais-cadastrados">
-            Animais Cadastrados
-          </a>
-
-          <a href="/adocoes-recebidas">
-            Adoções Recebidas
-          </a>
-
-          <a href="#">
-            Editar perfil
-          </a>
-
-        </aside>
+        <SidebarOng />
 
         <main className="container-animais">
 
@@ -178,15 +142,12 @@ export function EditarAnimal() {
           </h1>
 
           {erro && (
-
             <p>
               {erro}
             </p>
-
           )}
 
           {animal && (
-
             <div className="card-editar-animal">
 
               <div className="formulario-editar-animal">
@@ -201,7 +162,10 @@ export function EditarAnimal() {
                     type="text"
                     value={animal.nome}
                     onChange={(e) =>
-                      atualizarCampo("nome", e.target.value)
+                      atualizarCampo(
+                        "nome",
+                        e.target.value
+                      )
                     }/>
 
                 </div>
@@ -216,7 +180,10 @@ export function EditarAnimal() {
                     type="text"
                     value={animal.raca}
                     onChange={(e) =>
-                      atualizarCampo("raca", e.target.value)
+                      atualizarCampo(
+                        "raca",
+                        e.target.value
+                      )
                     }/>
 
                 </div>
@@ -230,7 +197,10 @@ export function EditarAnimal() {
                   <select
                     value={animal.especie}
                     onChange={(e) =>
-                      atualizarCampo("especie", e.target.value)
+                      atualizarCampo(
+                        "especie",
+                        e.target.value
+                      )
                     }>
 
                     <option value="CACHORRO">
@@ -254,7 +224,10 @@ export function EditarAnimal() {
                   <select
                     value={animal.idade}
                     onChange={(e) =>
-                      atualizarCampo("idade", e.target.value)
+                      atualizarCampo(
+                        "idade",
+                        e.target.value
+                      )
                     }>
 
                     <option value="FILHOTE">
@@ -282,7 +255,10 @@ export function EditarAnimal() {
                   <select
                     value={animal.sexo}
                     onChange={(e) =>
-                      atualizarCampo("sexo", e.target.value)
+                      atualizarCampo(
+                        "sexo",
+                        e.target.value
+                      )
                     }>
 
                     <option value="MACHO">
@@ -306,7 +282,10 @@ export function EditarAnimal() {
                   <select
                     value={animal.porte}
                     onChange={(e) =>
-                      atualizarCampo("porte", e.target.value)
+                      atualizarCampo(
+                        "porte",
+                        e.target.value
+                      )
                     }>
 
                     <option value="PEQUENO">
@@ -335,7 +314,10 @@ export function EditarAnimal() {
                     type="text"
                     value={animal.cor}
                     onChange={(e) =>
-                      atualizarCampo("cor", e.target.value)
+                      atualizarCampo(
+                        "cor",
+                        e.target.value
+                      )
                     }/>
 
                 </div>
@@ -350,7 +332,10 @@ export function EditarAnimal() {
                     type="text"
                     value={animal.localizacao}
                     onChange={(e) =>
-                      atualizarCampo("localizacao", e.target.value)
+                      atualizarCampo(
+                        "localizacao",
+                        e.target.value
+                      )
                     }/>
 
                 </div>
@@ -365,7 +350,10 @@ export function EditarAnimal() {
                     type="text"
                     value={animal.fotos}
                     onChange={(e) =>
-                      atualizarCampo("fotos", e.target.value)
+                      atualizarCampo(
+                        "fotos",
+                        e.target.value
+                      )
                     }/>
 
                 </div>
@@ -449,7 +437,10 @@ export function EditarAnimal() {
                   <select
                     value={animal.status}
                     onChange={(e) =>
-                      atualizarCampo("status", e.target.value)
+                      atualizarCampo(
+                        "status",
+                        e.target.value
+                      )
                     }
                     disabled={
                       animal.status === "ADOTADO" ||
@@ -476,26 +467,22 @@ export function EditarAnimal() {
                   type="button"
                   className="botao-cancelar-edicao"
                   onClick={() =>
-                    window.location.href = "/animais-cadastrados"
+                    window.location.href =
+                      "/animais-cadastrados"
                   }>
-
                   Cancelar
-
                 </button>
 
                 <button
                   type="button"
                   className="botao-salvar-edicao"
                   onClick={salvarAlteracoes}>
-
                   Salvar alterações
-
                 </button>
 
               </div>
 
             </div>
-
           )}
 
         </main>
@@ -503,7 +490,6 @@ export function EditarAnimal() {
       </div>
 
       {mensagem && (
-
         <div className="popup-overlay">
 
           <div className="popup">
@@ -520,17 +506,15 @@ export function EditarAnimal() {
               type="button"
               onClick={() => {
                 setMensagem("");
-                window.location.href = "/animais-cadastrados";
+                window.location.href =
+                  "/animais-cadastrados";
               }}>
-
               OK
-
             </button>
 
           </div>
 
         </div>
-
       )}
 
     </>

@@ -712,3 +712,83 @@
   transform: scale(1.03);
   opacity: 0.9;
 }
+
+/* Página do formulário quando acessada pelo adotante */
+
+.pagina-formulario-adotante {
+  width: 100%;
+  min-height: calc(100vh - 102px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  font-family: "Inter", sans-serif;
+  overflow-y: auto;
+}
+
+.pagina-formulario-adotante .container-formulario-adotante {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+.pagina-formulario-adotante .container-formulario-adotante > h1 {
+  width: 80%;
+  margin: 30px 0 0 0;
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.pagina-formulario-adotante .card-adocao-detalhes {
+  width: 80%;
+}
+
+.pagina-formulario-adotante .acoes-formulario {
+  width: 80%;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .pagina-formulario-adotante {
+    min-height: calc(100vh - 102px);
+  }
+
+  .pagina-formulario-adotante .container-formulario-adotante > h1 {
+    width: 90%;
+    font-size: 22px;
+  }
+
+  .pagina-formulario-adotante .card-adocao-detalhes {
+    width: 90%;
+  }
+
+  .pagina-formulario-adotante .dados-adocao {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-formulario-adotante .acoes-formulario {
+    width: 90%;
+  }
+}
+
+.botao-voltar-formularios {
+  padding: 11px 22px;
+  border: none;
+  border-radius: 8px;
+  background-color: #36C3FF;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.botao-voltar-formularios:hover {
+  background-color: #20b4f2;
+  transform: translateY(-1px);
+}

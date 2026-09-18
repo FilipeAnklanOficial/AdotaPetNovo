@@ -37,6 +37,9 @@ public class SecurityConfig {
                         // público (visualização de animais)
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/animal/**").permitAll()
 
+                        // público (acesso ao perfil da ong)
+                        .requestMatchers(HttpMethod.GET, "/perfil/ong/**").permitAll()
+
                         //Libera acesso ao POST buscar
                         .requestMatchers(HttpMethod.POST, "/animal/buscar").permitAll()
 

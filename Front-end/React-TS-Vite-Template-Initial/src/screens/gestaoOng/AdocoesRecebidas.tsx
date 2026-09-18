@@ -1,149 +1,94 @@
 import { useEffect, useState } from "react";
-
 import { apiService } from "../../services/ApiService";
-
 import { Header } from "../../components/Header";
-
+import { SidebarOng } from "../../components/SidebarOng";
 import "./GestaoOng.css";
 
 interface Adocao {
-
   id: number;
-
   animalId: number;
-
   animalNome: string;
-
   animalFoto: string;
-
   usuarioId: number;
-
   usuarioNome: string;
-
   usuarioEmail: string;
-
   usuarioEndereco: string;
-
   usuarioTelefone: string;
-
   dataResposta: string;
-
   status: string;
 }
 
 export function AdocoesRecebidas() {
-
   const [adocoes, setAdocoes] = useState<Adocao[]>([]);
-
   const [erro, setErro] = useState("");
 
   useEffect(() => {
-
     async function carregarAdocoes() {
-
       try {
-
         const response = await apiService.get("/adocao/ong");
-
         setAdocoes(response.data);
-
       } catch (error) {
-
         console.error("Erro ao carregar adoções:", error);
-
         setErro("Não foi possível carregar as adoções.");
       }
     }
 
     carregarAdocoes();
-
   }, []);
 
   function formatarData(data: string): string {
-
     const dataFormatada = new Date(data);
-
     return dataFormatada.toLocaleDateString("pt-BR");
   }
 
   function visualizarFormulario(id: number): void {
-
     window.location.href = `/adocoes-recebidas/${id}`;
   }
 
   function formatarStatus(status: string): {
     texto: string;
     classe: string;
-    } {
-
+  } {
     switch (status) {
-
-        case "EM_ANALISE":
+      case "EM_ANALISE":
         return {
-            texto: "Em análise",
-            classe: "status-em-analise"
+          texto: "Em análise",
+          classe: "status-em-analise"
         };
 
-        case "APROVADO":
+      case "APROVADO":
         return {
-            texto: "Aprovado",
-            classe: "status-aprovado"
+          texto: "Aprovado",
+          classe: "status-aprovado"
         };
 
-        case "REPROVADO":
+      case "REPROVADO":
         return {
-            texto: "Reprovado",
-            classe: "status-reprovado"
+          texto: "Reprovado",
+          classe: "status-reprovado"
         };
 
-        case "AGUARDANDO_APROVACAO":
+      case "AGUARDANDO_APROVACAO":
         return {
-            texto: "Aguardando aprovação",
-            classe: "status-em-analise"
+          texto: "Aguardando aprovação",
+          classe: "status-em-analise"
         };
 
-        default:
+      default:
         return {
-            texto: status,
-            classe: ""
+          texto: status,
+          classe: ""
         };
     }
-    }
+  }
 
   return (
-    
     <>
       <Header />
 
       <div className="gestao-ong-page">
 
-        <aside className="gestao-sidebar">
-
-          <a href="/">
-            Página Inicial
-          </a>
-
-          <a href="/gestao-ong">
-            Painel de Gestão
-          </a>
-
-          <a href="/registrar-animal">
-            Cadastrar Animais
-          </a>
-
-          <a href="/animais-cadastrados">
-            Animais Cadastrados
-          </a>
-
-          <a href="/adocoes-recebidas">
-            Adoções Recebidas
-          </a>
-
-          <a href="#">
-            Editar perfil
-          </a>
-
-        </aside>
+        <SidebarOng />
 
         <main className="container-animais">
 
@@ -152,23 +97,18 @@ export function AdocoesRecebidas() {
           </h1>
 
           {erro && (
-
             <p>
               {erro}
             </p>
-
           )}
 
           {adocoes.length === 0 && !erro && (
-
             <p>
               Nenhuma candidatura de adoção recebida.
             </p>
-
           )}
 
           {adocoes.map((adocao) => (
-
             <div
               className="card-animal"
               key={adocao.id}>
@@ -176,17 +116,13 @@ export function AdocoesRecebidas() {
               <div className="foto-animal">
 
                 {adocao.animalFoto ? (
-
                   <img
                     src={adocao.animalFoto}
                     alt={`Foto de ${adocao.animalNome}`}/>
-
                 ) : (
-
                   <span>
                     Sem foto
                   </span>
-
                 )}
 
               </div>
@@ -231,30 +167,25 @@ export function AdocoesRecebidas() {
 
                 <div className="flex flex-col items-center gap-4">
 
-                    <span
+                  <span
                     className={`status-adocao ${formatarStatus(adocao.status).classe}`}>
-
                     {formatarStatus(adocao.status).texto}
+                  </span>
 
-                    </span>
-
-                    <button
-                        type="button"
-                        onClick={() =>
-                            visualizarFormulario(adocao.id)
-                        }
-                        className="botao-visualizar">
-
-                        Visualizar formulário
-
-                    </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      visualizarFormulario(adocao.id)
+                    }
+                    className="botao-visualizar">
+                    Visualizar formulário
+                  </button>
 
                 </div>
 
-                </div>
+              </div>
 
             </div>
-
           ))}
 
         </main>

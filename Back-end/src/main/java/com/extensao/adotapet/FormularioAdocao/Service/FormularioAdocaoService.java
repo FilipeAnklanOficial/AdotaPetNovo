@@ -4,16 +4,14 @@ import com.extensao.adotapet.Animal.Animal;
 import com.extensao.adotapet.Animal.AnimalRepository;
 import com.extensao.adotapet.Enum.Status;
 import com.extensao.adotapet.Enum.StatusAdocao;
-import com.extensao.adotapet.FormularioAdocao.Dto.AdocaoOngDTO;
-import com.extensao.adotapet.FormularioAdocao.Dto.RespostaItemDTO;
-import com.extensao.adotapet.FormularioAdocao.Dto.RespostaRequestDTO;
+import com.extensao.adotapet.Enum.TipoUsuario;
+import com.extensao.adotapet.FormularioAdocao.Dto.*;
 import com.extensao.adotapet.FormularioAdocao.Entity.PerguntaPadrao;
 import com.extensao.adotapet.FormularioAdocao.Entity.RespostaPergunta;
 import com.extensao.adotapet.FormularioAdocao.Repository.PerguntaPadraoRepository;
 import com.extensao.adotapet.FormularioAdocao.Repository.RespostaPerguntaRepository;
 import com.extensao.adotapet.FormularioAdocao.Entity.RespostaAdocao;
 import com.extensao.adotapet.FormularioAdocao.Repository.RespostaAdocaoRepository;
-import com.extensao.adotapet.FormularioAdocao.Dto.AdocaoDetalhesDTO;
 import com.extensao.adotapet.Usuario.Usuario;
 import com.extensao.adotapet.exception.BusinessException;
 import com.extensao.adotapet.exception.NotFoundException;
@@ -37,6 +35,10 @@ public class FormularioAdocaoService {
     private RespostaAdocaoRepository respostaAdocaoRepository;
 
     public void responder (RespostaRequestDTO dto, Usuario usuario) {
+
+        if (usuario.getTipoUsuario() != TipoUsuario.ROLE_ADOTANTE) {
+            throw new BusinessException("Apenas adotantes podem solicitar uma adoção");
+        }
 
         Animal animal = animalRepository.findById(dto.getAnimalId())
                 .orElseThrow(() -> new NotFoundException("Animal não encontrado"));
@@ -130,14 +132,26 @@ public class FormularioAdocaoService {
     }
 
 
-    public AdocaoDetalhesDTO buscarDetalhesDaAdocao(Long id, Usuario ong) {
+    public AdocaoDetalhesDTO buscarDetalhesDaAdocao(Long idAdocao, Usuario usuario) {
 
-        RespostaAdocao adocao = respostaAdocaoRepository.findById(id)
+        RespostaAdocao adocao = respostaAdocaoRepository.findById(idAdocao)
                 .orElseThrow(() -> new NotFoundException("Candidatura não encontrada"));
 
         Usuario donoAnimal = adocao.getAnimal().getOng();
 
-        if (donoAnimal.getId() != ong.getId()) {
+        if (usuario.getTipoUsuario() == TipoUsuario.ROLE_ONG) {
+
+            if (donoAnimal.getId() != usuario.getId()) {
+                throw new BusinessException("Você não tem acesso a esta candidatura");
+            }
+
+        } else if (usuario.getTipoUsuario() == TipoUsuario.ROLE_ADOTANTE) {
+
+            if (adocao.getUsuario().getId() != usuario.getId()) {
+                throw new BusinessException("Você não tem acesso a esta candidatura");
+            }
+
+        } else {
             throw new BusinessException("Você não tem acesso a esta candidatura");
         }
 
@@ -176,5 +190,27 @@ public class FormularioAdocaoService {
         dto.setRespostas(respostas);
 
         return dto;
+    }
+
+    public List<AdocaoUsuarioDTO> listarAdocoesDoUsuario(Usuario usuario) {
+
+        return respostaAdocaoRepository.findByUsuario(usuario)
+                .stream()
+                .map(adocao -> {
+
+                    AdocaoUsuarioDTO dto = new AdocaoUsuarioDTO();
+
+                    dto.setId(adocao.getId());
+
+                    dto.setAnimalId(adocao.getAnimal().getId());
+                    dto.setAnimalNome(adocao.getAnimal().getNome());
+                    dto.setAnimalFoto(adocao.getAnimal().getFotos());
+
+                    dto.setDataResposta(adocao.getDataResposta());
+                    dto.setStatus(adocao.getStatus());
+
+                    return dto;
+                })
+                .toList();
     }
 }

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
-import { apiService } from "../../services/ApiService";
+import {
+  useLocation,
+  useNavigate,
+  useParams
+} from "react-router-dom";
 import { Header } from "../../components/Header";
-
+import { SidebarOng } from "../../components/SidebarOng";
+import { apiService } from "../../services/ApiService";
 import "./GestaoOng.css";
 
 interface Resposta {
@@ -13,22 +16,18 @@ interface Resposta {
 
 interface AdocaoDetalhesData {
   id: number;
-
   animalId: number;
   animalNome: string;
   animalFoto: string;
   animalIdade: string;
   animalSexo: string;
-
   usuarioId: number;
   usuarioNome: string;
   usuarioEmail: string;
   usuarioDataNascimento: string | null;
   usuarioEndereco: string;
-
   dataResposta: string;
   status: string;
-
   respostas: Resposta[];
 }
 
@@ -38,64 +37,71 @@ interface Pergunta {
 }
 
 export function AdocaoDetalhes() {
-
   const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [adocao, setAdocao] = useState<AdocaoDetalhesData | null>(null);
-  const [perguntas, setPerguntas] = useState<Pergunta[]>([]);
+  const ehAdotante = location.pathname.startsWith(
+    "/adocoes-enviadas/"
+  );
+
+  const [adocao, setAdocao] =
+    useState<AdocaoDetalhesData | null>(null);
+
+  const [perguntas, setPerguntas] =
+    useState<Pergunta[]>([]);
+
   const [erro, setErro] = useState("");
 
-  const [statusParaAtualizar, setStatusParaAtualizar] = useState<
-    "APROVADO" | "REPROVADO" | null
-  >(null);
+  const [statusParaAtualizar, setStatusParaAtualizar] =
+    useState<"APROVADO" | "REPROVADO" | null>(null);
 
   const [mensagem, setMensagem] = useState("");
 
   useEffect(() => {
-
     async function carregarDados() {
-
       try {
-
-        const [adocaoResponse, perguntasResponse] = await Promise.all([
-          apiService.get(`/adocao/${id}`),
-          apiService.get("/perguntas/listar")
-        ]);
+        const [adocaoResponse, perguntasResponse] =
+          await Promise.all([
+            apiService.get(`/adocao/${id}`),
+            apiService.get("/perguntas/listar")
+          ]);
 
         setAdocao(adocaoResponse.data);
         setPerguntas(perguntasResponse.data);
-
       } catch (error) {
+        console.error(
+          "Erro ao carregar formulário:",
+          error
+        );
 
-        console.error("Erro ao carregar formulário:", error);
-
-        setErro("Não foi possível carregar o formulário.");
-
+        setErro(
+          "Não foi possível carregar o formulário."
+        );
       }
     }
 
     carregarDados();
-
   }, [id]);
 
   function formatarData(data: string): string {
-
     return new Date(data).toLocaleDateString("pt-BR");
   }
 
-  function formatarDataNascimento(data: string | null): string {
-
+  function formatarDataNascimento(
+    data: string | null
+  ): string {
     if (!data) {
       return "Não informado";
     }
 
-    return new Date(`${data}T00:00:00`).toLocaleDateString("pt-BR");
+    return new Date(
+      `${data}T00:00:00`
+    ).toLocaleDateString("pt-BR");
   }
 
   function formatarIdade(idade: string): string {
-
     switch (idade) {
-
       case "FILHOTE":
         return "Filhote";
 
@@ -111,9 +117,7 @@ export function AdocaoDetalhes() {
   }
 
   function formatarSexo(sexo: string): string {
-
     switch (sexo) {
-
       case "MACHO":
         return "Macho";
 
@@ -126,9 +130,7 @@ export function AdocaoDetalhes() {
   }
 
   function formatarStatus(status: string): string {
-
     switch (status) {
-
       case "EM_ANALISE":
         return "Em análise";
 
@@ -146,8 +148,9 @@ export function AdocaoDetalhes() {
     }
   }
 
-  function encontrarResposta(perguntaId: number): string {
-
+  function encontrarResposta(
+    perguntaId: number
+  ): string {
     const resposta = adocao?.respostas.find(
       (item) => item.perguntaId === perguntaId
     );
@@ -158,18 +161,15 @@ export function AdocaoDetalhes() {
   function solicitarAtualizacaoStatus(
     status: "APROVADO" | "REPROVADO"
   ) {
-
     setStatusParaAtualizar(status);
   }
 
   async function confirmarAtualizacaoStatus() {
-
     if (!adocao || !statusParaAtualizar) {
       return;
     }
 
     try {
-
       await apiService.patch(
         `/adocao/${adocao.id}/status?status=${statusParaAtualizar}`
       );
@@ -182,18 +182,19 @@ export function AdocaoDetalhes() {
       setStatusParaAtualizar(null);
 
       if (statusParaAtualizar === "APROVADO") {
-
-        setMensagem("Solicitação aprovada com sucesso!");
-
+        setMensagem(
+          "Solicitação aprovada com sucesso!"
+        );
       } else {
-
-        setMensagem("Solicitação reprovada com sucesso!");
-
+        setMensagem(
+          "Solicitação reprovada com sucesso!"
+        );
       }
-
     } catch (error) {
-
-      console.error("Erro ao atualizar status:", error);
+      console.error(
+        "Erro ao atualizar status:",
+        error
+      );
 
       setStatusParaAtualizar(null);
 
@@ -204,102 +205,24 @@ export function AdocaoDetalhes() {
   }
 
   if (erro) {
-
     return (
       <>
         <Header />
 
-        <div className="gestao-ong-page">
-
-          <aside className="gestao-sidebar">
-
-            <a href="/">
-              Página Inicial
-            </a>
-
-            <a href="/gestao-ong">
-              Painel de Gestão
-            </a>
-
-            <a href="/registrar-animal">
-              Cadastrar Animais
-            </a>
-
-            <a href="/animais-cadastrados">
-              Animais Cadastrados
-            </a>
-
-            <a href="/adocoes-recebidas">
-              Adoções Recebidas
-            </a>
-
-            <a href="#">
-              Editar perfil
-            </a>
-
-          </aside>
-
-          <main className="container-animais">
-
-            <h1>
-              Formulário de adoção
-            </h1>
-
-            <p>
-              {erro}
-            </p>
-
-          </main>
-
+        <div className="container-animais">
+          <p>{erro}</p>
         </div>
       </>
     );
   }
 
   if (!adocao) {
-
     return (
       <>
         <Header />
 
-        <div className="gestao-ong-page">
-
-          <aside className="gestao-sidebar">
-
-            <a href="/">
-              Página Inicial
-            </a>
-
-            <a href="/gestao-ong">
-              Painel de Gestão
-            </a>
-
-            <a href="/registrar-animal">
-              Cadastrar Animais
-            </a>
-
-            <a href="/animais-cadastrados">
-              Animais Cadastrados
-            </a>
-
-            <a href="/adocoes-recebidas">
-              Adoções Recebidas
-            </a>
-
-            <a href="#">
-              Editar perfil
-            </a>
-
-          </aside>
-
-          <main className="container-animais">
-
-            <h1>
-              Carregando formulário...
-            </h1>
-
-          </main>
-
+        <div className="container-animais">
+          <p>Carregando formulário...</p>
         </div>
       </>
     );
@@ -309,41 +232,23 @@ export function AdocaoDetalhes() {
     <>
       <Header />
 
-      <div className="gestao-ong-page">
+      <div
+        className={
+          ehAdotante
+            ? "pagina-formulario-adotante"
+            : "gestao-ong-page"
+        }>
 
-        <aside className="gestao-sidebar">
+        {!ehAdotante && <SidebarOng />}
 
-          <a href="/">
-            Página Inicial
-          </a>
+        <main
+          className={
+            ehAdotante
+              ? "container-formulario-adotante"
+              : "container-animais"
+          }>
 
-          <a href="/gestao-ong">
-            Painel de Gestão
-          </a>
-
-          <a href="/registrar-animal">
-            Cadastrar Animais
-          </a>
-
-          <a href="/animais-cadastrados">
-            Animais Cadastrados
-          </a>
-
-          <a href="/adocoes-recebidas">
-            Adoções Recebidas
-          </a>
-
-          <a href="#">
-            Editar perfil
-          </a>
-
-        </aside>
-
-        <main className="container-animais">
-
-          <h1>
-            Formulário de adoção
-          </h1>
+          <h1>Formulário de adoção</h1>
 
           <div className="card-adocao-detalhes">
 
@@ -351,26 +256,20 @@ export function AdocaoDetalhes() {
 
               <div className="bloco-animal">
 
-                <h2>
-                  Animal
-                </h2>
+                <h2>Informações do animal</h2>
 
                 <div className="dados-animal-adocao">
 
                   <div className="foto-animal-detalhes">
 
                     {adocao.animalFoto ? (
-
                       <img
                         src={adocao.animalFoto}
-                        alt={`Foto de ${adocao.animalNome}`}/>
-
+                        alt={adocao.animalNome}/>
                     ) : (
-
                       <span>
                         Sem foto
                       </span>
-
                     )}
 
                   </div>
@@ -384,12 +283,16 @@ export function AdocaoDetalhes() {
 
                     <p>
                       <strong>Idade:</strong>{" "}
-                      {formatarIdade(adocao.animalIdade)}
+                      {formatarIdade(
+                        adocao.animalIdade
+                      )}
                     </p>
 
                     <p>
                       <strong>Sexo:</strong>{" "}
-                      {formatarSexo(adocao.animalSexo)}
+                      {formatarSexo(
+                        adocao.animalSexo
+                      )}
                     </p>
 
                   </div>
@@ -400,15 +303,18 @@ export function AdocaoDetalhes() {
 
               <div className="bloco-adotante">
 
-                <h2>
-                  Adotante
-                </h2>
+                <h2>Informações do adotante</h2>
 
                 <div className="informacoes-topo">
 
                   <p>
                     <strong>Nome:</strong>{" "}
                     {adocao.usuarioNome}
+                  </p>
+
+                  <p>
+                    <strong>E-mail:</strong>{" "}
+                    {adocao.usuarioEmail}
                   </p>
 
                   <p>
@@ -420,12 +326,7 @@ export function AdocaoDetalhes() {
 
                   <p>
                     <strong>Endereço:</strong>{" "}
-                    {adocao.usuarioEndereco || "Não informado"}
-                  </p>
-
-                  <p>
-                    <strong>E-mail:</strong>{" "}
-                    {adocao.usuarioEmail}
+                    {adocao.usuarioEndereco}
                   </p>
 
                 </div>
@@ -443,18 +344,17 @@ export function AdocaoDetalhes() {
               <div className="informacoes-candidatura">
 
                 <p>
-                  <strong>Número:</strong>{" "}
-                  {adocao.id}
-                </p>
-
-                <p>
-                  <strong>Data de abertura:</strong>{" "}
-                  {formatarData(adocao.dataResposta)}
+                  <strong>Data da solicitação:</strong>{" "}
+                  {formatarData(
+                    adocao.dataResposta
+                  )}
                 </p>
 
                 <p>
                   <strong>Status:</strong>{" "}
-                  {formatarStatus(adocao.status)}
+                  {formatarStatus(
+                    adocao.status
+                  )}
                 </p>
 
               </div>
@@ -465,102 +365,122 @@ export function AdocaoDetalhes() {
 
           <div className="card-adocao-detalhes">
 
-            <h2>
-              Perguntas e respostas
-            </h2>
+            <h2>Respostas do formulário</h2>
 
             <div className="lista-perguntas">
 
-              {perguntas.map((pergunta, index) => (
+              {perguntas.map(
+                (pergunta, index) => (
+                  <div
+                    className="pergunta-resposta"
+                    key={pergunta.id}>
 
-                <div
-                  className="pergunta-resposta"
-                  key={pergunta.id}>
+                    <h3>
+                      {index + 1}.{" "}
+                      {pergunta.texto}
+                    </h3>
 
-                  <h3>
-                    {index + 1}. {pergunta.texto}
-                  </h3>
+                    <p>
+                      {encontrarResposta(
+                        pergunta.id
+                      )}
+                    </p>
 
-                  <p>
-                    {encontrarResposta(pergunta.id)}
-                  </p>
-
-                </div>
-
-              ))}
+                  </div>
+                )
+              )}
 
             </div>
 
-            {adocao.status === "EM_ANALISE" && (
+          </div>
 
+          {!ehAdotante &&
+            adocao.status === "EM_ANALISE" && (
               <div className="acoes-formulario">
 
                 <button
                   type="button"
                   className="botao-reprovar"
                   onClick={() =>
-                    solicitarAtualizacaoStatus("REPROVADO")
+                    solicitarAtualizacaoStatus(
+                      "REPROVADO"
+                    )
                   }>
-
                   Reprovar
-
                 </button>
 
                 <button
                   type="button"
                   className="botao-aprovar"
                   onClick={() =>
-                    solicitarAtualizacaoStatus("APROVADO")
+                    solicitarAtualizacaoStatus(
+                      "APROVADO"
+                    )
                   }>
-
                   Aprovar
-
                 </button>
 
               </div>
-
             )}
 
-          </div>
+          {ehAdotante && (
+            <div className="acoes-formulario">
+
+              <button
+                type="button"
+                className="botao-voltar-formularios"
+                onClick={() =>
+                  navigate("/perfil", {
+                    state: {
+                      abrirFormularios: true
+                    }
+                  })
+                }>
+                Voltar aos formulários enviados
+              </button>
+
+            </div>
+          )}
 
         </main>
 
       </div>
 
       {statusParaAtualizar && (
-
         <div className="popup-overlay">
 
           <div className="popup">
 
             <h2>
               {statusParaAtualizar === "APROVADO"
-                ? "Aprovar solicitação?"
-                : "Reprovar solicitação?"}
+                ? "Aprovar candidatura?"
+                : "Reprovar candidatura?"}
             </h2>
 
             <p>
+              Tem certeza que deseja{" "}
               {statusParaAtualizar === "APROVADO"
-                ? "Você tem certeza que deseja aprovar esta solicitação de adoção?"
-                : "Você tem certeza que deseja reprovar esta solicitação de adoção?"}
+                ? "aprovar"
+                : "reprovar"}{" "}
+              esta solicitação?
             </p>
 
             <div className="popup-acoes">
 
               <button
                 type="button"
-                onClick={() => setStatusParaAtualizar(null)}>
-
+                onClick={() =>
+                  setStatusParaAtualizar(null)
+                }>
                 Cancelar
-
               </button>
 
               <button
                 type="button"
-                onClick={confirmarAtualizacaoStatus}>
-
+                onClick={
+                  confirmarAtualizacaoStatus
+                }>
                 Confirmar
-
               </button>
 
             </div>
@@ -568,31 +488,28 @@ export function AdocaoDetalhes() {
           </div>
 
         </div>
-
       )}
 
       {mensagem && (
-
         <div className="popup-overlay">
 
           <div className="popup">
 
-            <p>
-              {mensagem}
-            </p>
+            <h2>Sucesso</h2>
+
+            <p>{mensagem}</p>
 
             <button
               type="button"
-              onClick={() => setMensagem("")}>
-
-              OK
-
+              onClick={() =>
+                setMensagem("")
+              }>
+              Fechar
             </button>
 
           </div>
 
         </div>
-
       )}
 
     </>

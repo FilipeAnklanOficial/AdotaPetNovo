@@ -7,12 +7,15 @@ import {
   RegistrarAnimal,
   AnimaisCadastrados,
   AdocoesRecebidas,
-  EditarAnimal,
+  AdocaoDetalhes,
   DetalhesAnimal,
   CadastroUsuario,
   FormularioAdocao,
-  AdocaoDetalhes,
-  VisualizarAnimal
+  EditarAnimal,
+  VisualizarAnimal,
+  Perfil,
+  EditarPerfil,
+  PerfilOng
 } from "../screens";
 
 export const routesList = createBrowserRouter([
@@ -29,38 +32,59 @@ export const routesList = createBrowserRouter([
     element: <Login />,
   },
   {
-  path: "/gestao-ong",
-  element: <GestaoOng />,
+    path: "/gestao-ong",
+    element: <GestaoOng />,
+  },
+  { 
+    path: "/perfil", 
+    element: <Perfil /> 
+  },
+  { 
+    path: "/perfil/ong/:id", 
+    element: <PerfilOng /> 
+  },
+  { 
+    path: "/perfil/edicao", 
+    element: <EditarPerfil /> 
   },
   {
-  path: "/registrar-animal",
-  element: <RegistrarAnimal />,
+    path: "/registrar-animal",
+    element: <RegistrarAnimal />,
   },
   {
     path: "/animais/:id",
     element: <DetalhesAnimal />,
   },
-  { path: "/cadastro", 
-    element: <CadastroUsuario />,
+  { 
+    path: "/cadastro", 
+    element: <CadastroUsuario /> 
   },
   {
-  path: "/adocao/:animalId",
-  element: <FormularioAdocao />
+    path: "/adocao/:animalId",
+    element: <FormularioAdocao />
   },
-  { path: "/animais-cadastrados", 
+  { 
+    path: "/animais-cadastrados", 
     element: <AnimaisCadastrados /> 
   },
-  { path: "/adocoes-recebidas", 
+  { 
+    path: "/adocoes-recebidas", 
     element: <AdocoesRecebidas /> 
   },
-  { path: "/animais/:id/editar", 
+  {
+    path: "/adocoes-recebidas/:id",
+    element: <AdocaoDetalhes />
+  },
+  { 
+    path: "/adocoes-enviadas/:id", 
+    element: <AdocaoDetalhes /> 
+  },
+  { 
+    path: "/animais/:id/editar", 
     element: <EditarAnimal /> 
   },
-  {
-  path: "/adocoes-recebidas/:id",
-  element: <AdocaoDetalhes />
-  },
-  { path: "/animais-cadastrados/:id", 
+  { 
+    path: "/animais-cadastrados/:id", 
     element: <VisualizarAnimal /> 
   },
   

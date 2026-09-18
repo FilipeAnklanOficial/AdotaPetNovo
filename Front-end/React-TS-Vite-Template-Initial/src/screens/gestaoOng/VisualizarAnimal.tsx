@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { apiService } from "../../services/ApiService";
 import { Header } from "../../components/Header";
-
+import { SidebarOng } from "../../components/SidebarOng";
 import "./GestaoOng.css";
 
 interface Animal {
@@ -27,39 +26,39 @@ interface Animal {
 }
 
 export function VisualizarAnimal() {
-
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [animal, setAnimal] = useState<Animal | null>(null);
+  const [animal, setAnimal] =
+    useState<Animal | null>(null);
+
   const [erro, setErro] = useState("");
 
   useEffect(() => {
-
     async function carregarAnimal() {
-
       try {
-
-        const response = await apiService.get(`/animal/${id}`);
+        const response = await apiService.get(
+          `/animal/${id}`
+        );
 
         setAnimal(response.data);
-
       } catch (error) {
+        console.error(
+          "Erro ao carregar animal:",
+          error
+        );
 
-        console.error("Erro ao carregar animal:", error);
-
-        setErro("Não foi possível carregar as informações do animal.");
+        setErro(
+          "Não foi possível carregar as informações do animal."
+        );
       }
     }
 
     carregarAnimal();
-
   }, [id]);
 
   function formatarIdade(idade: string): string {
-
     switch (idade) {
-
       case "FILHOTE":
         return "Filhote";
 
@@ -75,9 +74,7 @@ export function VisualizarAnimal() {
   }
 
   function formatarSexo(sexo: string): string {
-
     switch (sexo) {
-
       case "MACHO":
         return "Macho";
 
@@ -90,9 +87,7 @@ export function VisualizarAnimal() {
   }
 
   function formatarEspecie(especie: string): string {
-
     switch (especie) {
-
       case "CACHORRO":
         return "Cachorro";
 
@@ -105,9 +100,7 @@ export function VisualizarAnimal() {
   }
 
   function formatarPorte(porte: string): string {
-
     switch (porte) {
-
       case "PEQUENO":
         return "Pequeno";
 
@@ -123,9 +116,7 @@ export function VisualizarAnimal() {
   }
 
   function formatarStatus(status: string): string {
-
     switch (status) {
-
       case "DISPONIVEL":
         return "Disponível";
 
@@ -144,40 +135,13 @@ export function VisualizarAnimal() {
   }
 
   if (erro) {
-
     return (
       <>
         <Header />
 
         <div className="gestao-ong-page">
 
-          <aside className="gestao-sidebar">
-
-            <a href="/">
-              Página Inicial
-            </a>
-
-            <a href="/gestao-ong">
-              Painel de Gestão
-            </a>
-
-            <a href="/registrar-animal">
-              Cadastrar Animais
-            </a>
-
-            <a href="/animais-cadastrados">
-              Animais Cadastrados
-            </a>
-
-            <a href="/adocoes-recebidas">
-              Adoções Recebidas
-            </a>
-
-            <a href="#">
-              Editar perfil
-            </a>
-
-          </aside>
+          <SidebarOng />
 
           <main className="container-animais">
 
@@ -197,40 +161,13 @@ export function VisualizarAnimal() {
   }
 
   if (!animal) {
-
     return (
       <>
         <Header />
 
         <div className="gestao-ong-page">
 
-          <aside className="gestao-sidebar">
-
-            <a href="/">
-              Página Inicial
-            </a>
-
-            <a href="/gestao-ong">
-              Painel de Gestão
-            </a>
-
-            <a href="/registrar-animal">
-              Cadastrar Animais
-            </a>
-
-            <a href="/animais-cadastrados">
-              Animais Cadastrados
-            </a>
-
-            <a href="/adocoes-recebidas">
-              Adoções Recebidas
-            </a>
-
-            <a href="#">
-              Editar perfil
-            </a>
-
-          </aside>
+          <SidebarOng />
 
           <main className="container-animais">
 
@@ -246,11 +183,15 @@ export function VisualizarAnimal() {
   }
 
   function editarAnimal() {
-    navigate(`/animais/${animal!.id}/editar`);
+    navigate(
+      `/animais/${animal!.id}/editar`
+    );
   }
 
   function visualizarPaginaAnimal() {
-    navigate(`/animais/${animal!.id}`);
+    navigate(
+      `/animais/${animal!.id}`
+    );
   }
 
   return (
@@ -259,33 +200,7 @@ export function VisualizarAnimal() {
 
       <div className="gestao-ong-page">
 
-        <aside className="gestao-sidebar">
-
-          <a href="/">
-            Página Inicial
-          </a>
-
-          <a href="/gestao-ong">
-            Painel de Gestão
-          </a>
-
-          <a href="/registrar-animal">
-            Cadastrar Animais
-          </a>
-
-          <a href="/animais-cadastrados">
-            Animais Cadastrados
-          </a>
-
-          <a href="/adocoes-recebidas">
-            Adoções Recebidas
-          </a>
-
-          <a href="#">
-            Editar perfil
-          </a>
-
-        </aside>
+        <SidebarOng />
 
         <main className="container-animais">
 
@@ -300,17 +215,13 @@ export function VisualizarAnimal() {
               <div className="foto-visualizar-animal">
 
                 {animal.fotos ? (
-
                   <img
                     src={animal.fotos}
                     alt={`Foto de ${animal.nome}`}/>
-
                 ) : (
-
                   <span>
                     Sem foto
                   </span>
-
                 )}
 
               </div>
@@ -322,33 +233,55 @@ export function VisualizarAnimal() {
                 </h2>
 
                 <p>
-                  <strong>Espécie:</strong>{" "}
-                  {formatarEspecie(animal.especie)}
+                  <strong>
+                    Espécie:
+                  </strong>{" "}
+                  {formatarEspecie(
+                    animal.especie
+                  )}
                 </p>
 
                 <p>
-                  <strong>Raça:</strong>{" "}
-                  {animal.raca || "Não informado"}
+                  <strong>
+                    Raça:
+                  </strong>{" "}
+                  {animal.raca ||
+                    "Não informado"}
                 </p>
 
                 <p>
-                  <strong>Idade:</strong>{" "}
-                  {formatarIdade(animal.idade)}
+                  <strong>
+                    Idade:
+                  </strong>{" "}
+                  {formatarIdade(
+                    animal.idade
+                  )}
                 </p>
 
                 <p>
-                  <strong>Sexo:</strong>{" "}
-                  {formatarSexo(animal.sexo)}
+                  <strong>
+                    Sexo:
+                  </strong>{" "}
+                  {formatarSexo(
+                    animal.sexo
+                  )}
                 </p>
 
                 <p>
-                  <strong>Porte:</strong>{" "}
-                  {formatarPorte(animal.porte)}
+                  <strong>
+                    Porte:
+                  </strong>{" "}
+                  {formatarPorte(
+                    animal.porte
+                  )}
                 </p>
 
                 <p>
-                  <strong>Cor:</strong>{" "}
-                  {animal.cor || "Não informado"}
+                  <strong>
+                    Cor:
+                  </strong>{" "}
+                  {animal.cor ||
+                    "Não informado"}
                 </p>
 
               </div>
@@ -362,127 +295,135 @@ export function VisualizarAnimal() {
               </h2>
 
               <p>
-                <strong>Localização:</strong>{" "}
-                {animal.localizacao || "Não informado"}
+                <strong>
+                  Localização:
+                </strong>{" "}
+                {animal.localizacao ||
+                  "Não informado"}
               </p>
 
               <p>
-                <strong>Vacinado:</strong>{" "}
-                {animal.vacinado ? "Sim" : "Não"}
+                <strong>
+                  Vacinado:
+                </strong>{" "}
+                {animal.vacinado
+                  ? "Sim"
+                  : "Não"}
               </p>
 
               <p>
-                <strong>Possui chip:</strong>{" "}
-                {animal.possuiChip ? "Sim" : "Não"}
+                <strong>
+                  Possui chip:
+                </strong>{" "}
+                {animal.possuiChip
+                  ? "Sim"
+                  : "Não"}
               </p>
 
               <p>
-                <strong>Status:</strong>{" "}
-                {formatarStatus(animal.status)}
+                <strong>
+                  Status:
+                </strong>{" "}
+                {formatarStatus(
+                  animal.status
+                )}
               </p>
 
               <p>
-                <strong>Histórico de saúde:</strong>{" "}
-                {animal.historicoSaude || "Não informado"}
+                <strong>
+                  Histórico de saúde:
+                </strong>{" "}
+                {animal.historicoSaude ||
+                  "Não informado"}
               </p>
 
               <p>
-                <strong>Comportamento:</strong>{" "}
-                {animal.comportamento || "Não informado"}
+                <strong>
+                  Comportamento:
+                </strong>{" "}
+                {animal.comportamento ||
+                  "Não informado"}
               </p>
 
               <p>
-                <strong>ONG responsável:</strong>{" "}
-                {animal.nomeOng || "Não informado"}
+                <strong>
+                  ONG responsável:
+                </strong>{" "}
+                {animal.nomeOng ||
+                  "Não informado"}
               </p>
 
             </div>
 
             <div className="acoes-visualizar-animal">
 
-            <button
-              type="button"
-              className="botao-editar-animal"
-              onClick={editarAnimal}>
+              <button
+                type="button"
+                className="botao-editar-animal"
+                onClick={editarAnimal}>
+                Editar
+              </button>
 
-              Editar
-
-            </button>
-
-            {(animal.status === "DISPONIVEL" ||
-            animal.status === "INATIVO") && (
-
-            <button
-              type="button"
-              className={
-                animal.status === "INATIVO"
-                  ? "botao-status-animal botao-ativar-animal"
-                  : "botao-status-animal botao-inativar-animal"
-              }
-              onClick={async () => {
-
-                try {
-
-                  if (animal.status === "INATIVO") {
-
-                    await apiService.put(
-                      `/animal/${animal.id}/ativar`
-                    );
-
-                    setAnimal({
-                      ...animal,
-                      status: "DISPONIVEL"
-                    });
-
-                  } else {
-
-                    await apiService.put(
-                      `/animal/${animal.id}/inativar`
-                    );
-
-                    setAnimal({
-                      ...animal,
-                      status: "INATIVO"
-                    });
-
+              {(animal.status === "DISPONIVEL" ||
+                animal.status === "INATIVO") && (
+                <button
+                  type="button"
+                  className={
+                    animal.status === "INATIVO"
+                      ? "botao-status-animal botao-ativar-animal"
+                      : "botao-status-animal botao-inativar-animal"
                   }
-                } catch (error) {
+                  onClick={async () => {
+                    try {
+                      if (
+                        animal.status ===
+                        "INATIVO"
+                      ) {
+                        await apiService.put(
+                          `/animal/${animal.id}/ativar`
+                        );
 
-                  console.error(
-                    "Erro ao alterar status do animal:",
-                    error
-                  );
+                        setAnimal({
+                          ...animal,
+                          status: "DISPONIVEL"
+                        });
+                      } else {
+                        await apiService.put(
+                          `/animal/${animal.id}/inativar`
+                        );
 
-                }
+                        setAnimal({
+                          ...animal,
+                          status: "INATIVO"
+                        });
+                      }
+                    } catch (error) {
+                      console.error(
+                        "Erro ao alterar status do animal:",
+                        error
+                      );
+                    }
+                  }}>
+                  {animal.status === "INATIVO"
+                    ? "Ativar"
+                    : "Inativar"}
+                </button>
+              )}
 
-              }}>
+              <button
+                type="button"
+                className="botao-excluir-animal">
+                Excluir
+              </button>
 
-              {animal.status === "INATIVO"
-                ? "Ativar"
-                : "Inativar"}
+              <button
+                type="button"
+                className="botao-visualizar-publico"
+                onClick={visualizarPaginaAnimal}>
+                Visualizar animal
+              </button>
 
-            </button>
-
-          )}
-
-            <button
-              type="button"
-              className="botao-excluir-animal">
-
-              Excluir
-
-            </button>
-
-            <button
-              type="button"
-              className="botao-visualizar-publico"
-              onClick={visualizarPaginaAnimal}>
-
-              Visualizar animal
-
-            </button>
-
-          </div>
+            </div>
 
           </div>
 
