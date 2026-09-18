@@ -27,7 +27,7 @@ public class Animal {
     private String historicoSaude;
     private String comportamento;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String fotos;
     private boolean possuiChip;
     private String localizacao;
