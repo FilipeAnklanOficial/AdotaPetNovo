@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Adota Pet | Plataforma para Adoção de Animais</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7fbfd;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #36C3FF;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+
+        .botao {
+            display: inline-block;
+            background: white;
+            color: #159ed1;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 10px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        section {
+            background: white;
+            padding: 35px;
+            margin-bottom: 30px;
+            border-radius: 16px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        h2 {
+            color: #159ed1;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        p {
+            margin-bottom: 12px;
+        }
+
+        ul {
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .tecnologias {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tecnologia {
+            background: #f0faff;
+            border: 1px solid #d8f3ff;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .diagrama {
+            margin-top: 25px;
+            padding: 25px;
+            background: #f7fbfd;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .diagrama h3 {
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 32px;
+            }
+
+            header p {
+                font-size: 17px;
+            }
+
+            section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🐾 Adota Pet</h1>
+
+    <p>
+        Plataforma Web para Adoção de Animais Resgatados
+    </p>
+
+    <a
+        href="https://www.adotapet.site/"
+        class="botao"
+        target="_blank">
+        Acessar a aplicação
+    </a>
+</header>
+
+<main>
+
+    <section>
+        <h2>Sobre o projeto</h2>
+
+        <p>
+            O Adota Pet é uma plataforma web desenvolvida com o objetivo
+            de facilitar a adoção responsável de animais resgatados.
+        </p>
+
+        <p>
+            A plataforma permite que ONGs cadastrem animais disponíveis
+            para adoção e que pessoas interessadas encontrem animais,
+            conheçam seus dados e realizem uma solicitação de adoção.
+        </p>
+    </section>
+
+    <section>
+        <h2>Objetivos</h2>
+
+        <ul>
+            <li>Facilitar o processo de adoção responsável.</li>
+            <li>Conectar ONGs e pessoas interessadas em adotar.</li>
+            <li>Divulgar animais resgatados disponíveis para adoção.</li>
+            <li>Organizar as solicitações de adoção.</li>
+            <li>Auxiliar as ONGs no gerenciamento dos animais.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Principais funcionalidades</h2>
+
+        <ul>
+            <li>Cadastro e autenticação de usuários.</li>
+            <li>Cadastro de ONGs.</li>
+            <li>Cadastro e gerenciamento de animais.</li>
+            <li>Busca e filtros de animais.</li>
+            <li>Visualização dos detalhes dos animais.</li>
+            <li>Perfil das ONGs.</li>
+            <li>Formulário de adoção.</li>
+            <li>Acompanhamento das solicitações.</li>
+            <li>Aprovação ou recusa de solicitações pela ONG.</li>
+            <li>Atualização do status dos animais.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Tecnologias utilizadas</h2>
+
+        <div class="tecnologias">
+            <div class="tecnologia">Java</div>
+            <div class="tecnologia">Spring Boot</div>
+            <div class="tecnologia">Spring Security</div>
+            <div class="tecnologia">JWT</div>
+            <div class="tecnologia">JPA</div>
+            <div class="tecnologia">MySQL</div>
+            <div class="tecnologia">React</div>
+            <div class="tecnologia">TypeScript</div>
+            <div class="tecnologia">Vite</div>
+            <div class="tecnologia">Tailwind CSS</div>
+            <div class="tecnologia">Axios</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Diagramas do projeto</h2>
+
+        <h3>Diagrama Entidade-Relacionamento (DER)</h3>
+        <img src="diagramas/der.png" alt="Diagrama Entidade-Relacionamento">
+
+        <h3>Diagrama de Casos de Uso</h3>
+        <img src="diagramas/casos-de-uso.png" alt="Diagrama de Casos de Uso">
+
+        <h3>Diagrama de Classes</h3>
+        <img src="diagramas/classes.png" alt="Diagrama de Classes">
+    </section>
+
+    <section>
+        <h2>Projeto de Extensão</h2>
+
+        <p>
+            <strong>Curso:</strong> Engenharia de Software
+        </p>
+
+        <p>
+            <strong>Projeto:</strong> Adota Pet
+        </p>
+
+        <p>
+            Plataforma Web para Adoção de Animais Resgatados.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <p>Adota Pet — Plataforma Web para Adoção de Animais Resgatados</p>
+</footer>
+
+</body>
+</html>
