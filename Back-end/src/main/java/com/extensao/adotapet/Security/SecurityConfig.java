@@ -31,6 +31,10 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // libera preflight do CORS
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                         // público (login e cadastro)
                         .requestMatchers("/auth/**").permitAll()
 
