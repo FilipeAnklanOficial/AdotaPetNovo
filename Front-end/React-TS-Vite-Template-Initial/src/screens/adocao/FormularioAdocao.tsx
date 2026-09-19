@@ -14,6 +14,8 @@ interface Resposta {
   resposta: string;
 }
 
+type TipoPopup = "sucesso" | "erro" | "aviso" | null;
+
 export default function FormularioAdocao() {
   const { animalId } = useParams();
   const navigate = useNavigate();
@@ -22,7 +24,10 @@ export default function FormularioAdocao() {
   const [respostas, setRespostas] = useState<Resposta[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [enviando, setEnviando] = useState(false);
-  const [mensagemErro, setMensagemErro] = useState("");
+
+  const [popupAberto, setPopupAberto] = useState(false);
+  const [tipoPopup, setTipoPopup] = useState<TipoPopup>(null);
+  const [mensagemPopup, setMensagemPopup] = useState("");
 
   useEffect(() => {
     carregarPerguntas();
@@ -34,13 +39,34 @@ export default function FormularioAdocao() {
       setPerguntas(response.data);
     } catch (error) {
       console.error(error);
-      alert("Não foi possível carregar o formulário.");
+
+      mostrarPopup(
+        "erro",
+        "Não foi possível carregar o formulário."
+      );
     } finally {
       setCarregando(false);
     }
   }
 
-  function alterarResposta(perguntaId: number, novaResposta: string) {
+  function mostrarPopup(tipo: TipoPopup, mensagem: string) {
+    setTipoPopup(tipo);
+    setMensagemPopup(mensagem);
+    setPopupAberto(true);
+  }
+
+  function fecharPopup() {
+    setPopupAberto(false);
+
+    if (tipoPopup === "sucesso") {
+      navigate(`/animais/${animalId}`);
+    }
+  }
+
+  function alterarResposta(
+    perguntaId: number,
+    novaResposta: string
+  ) {
     setRespostas((respostasAtuais) => {
       const existe = respostasAtuais.some(
         (item) => item.perguntaId === perguntaId
@@ -49,7 +75,10 @@ export default function FormularioAdocao() {
       if (existe) {
         return respostasAtuais.map((item) =>
           item.perguntaId === perguntaId
-            ? { ...item, resposta: novaResposta }
+            ? {
+                ...item,
+                resposta: novaResposta
+              }
             : item
         );
       }
@@ -66,16 +95,22 @@ export default function FormularioAdocao() {
 
   function obterResposta(perguntaId: number) {
     return (
-      respostas.find((resposta) => resposta.perguntaId === perguntaId)
-        ?.resposta || ""
+      respostas.find(
+        (resposta) => resposta.perguntaId === perguntaId
+      )?.resposta || ""
     );
   }
 
-  async function enviarFormulario(e: React.FormEvent<HTMLFormElement>) {
+  async function enviarFormulario(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
     e.preventDefault();
 
     if (!animalId) {
-      alert("Animal não identificado.");
+      mostrarPopup(
+        "aviso",
+        "Animal não identificado."
+      );
       return;
     }
 
@@ -84,7 +119,10 @@ export default function FormularioAdocao() {
     );
 
     if (perguntasSemResposta.length > 0) {
-      setMensagemErro("Responda todas as perguntas antes de enviar.");
+      mostrarPopup(
+        "aviso",
+        "Responda todas as perguntas antes de enviar."
+      );
       return;
     }
 
@@ -96,8 +134,10 @@ export default function FormularioAdocao() {
         respostas
       });
 
-      alert("Formulário enviado com sucesso!");
-      navigate(`/animais/${animalId}`);
+      mostrarPopup(
+        "sucesso",
+        "Formulário enviado com sucesso! A ONG irá analisar sua solicitação."
+      );
     } catch (error: any) {
       console.error("ERRO COMPLETO:", error);
 
@@ -105,7 +145,7 @@ export default function FormularioAdocao() {
         error.response?.data?.error ||
         "Não foi possível enviar o formulário.";
 
-      setMensagemErro(mensagem);
+      mostrarPopup("erro", mensagem);
     } finally {
       setEnviando(false);
     }
@@ -114,7 +154,9 @@ export default function FormularioAdocao() {
   if (carregando) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600">Carregando formulário...</p>
+        <p className="text-gray-600">
+          Carregando formulário...
+        </p>
       </div>
     );
   }
@@ -124,7 +166,9 @@ export default function FormularioAdocao() {
       <div className="max-w-4xl mx-auto">
         <button
           type="button"
-          onClick={() => navigate(`/animais/${animalId}`)}
+          onClick={() =>
+            navigate(`/animais/${animalId}`)
+          }
           className="mb-6 text-gray-600 hover:text-black">
           ← Voltar para o animal
         </button>
@@ -136,20 +180,23 @@ export default function FormularioAdocao() {
             </h1>
 
             <p className="text-gray-600 mt-2">
-              Responda às perguntas abaixo. Essas informações ajudarão a ONG
-              a conhecer melhor o seu perfil e avaliar a adoção.
+              Responda às perguntas abaixo. Essas informações
+              ajudarão a ONG a conhecer melhor o seu perfil e
+              avaliar a adoção.
             </p>
           </div>
 
-          <form onSubmit={enviarFormulario} className="space-y-8">
+          <form
+            onSubmit={enviarFormulario}
+            className="space-y-8">
             {perguntas.map((pergunta, index) => {
-              const respostaAtual = obterResposta(pergunta.id);
+              const respostaAtual =
+                obterResposta(pergunta.id);
 
               return (
                 <div
                   key={pergunta.id}
                   className="border-b border-gray-200 pb-7 last:border-b-0">
-
                   <label className="block text-lg font-medium text-gray-800 mb-4">
                     {index + 1}. {pergunta.texto}
                   </label>
@@ -161,9 +208,14 @@ export default function FormularioAdocao() {
                           type="radio"
                           name={`pergunta-${pergunta.id}`}
                           value="Sim"
-                          checked={respostaAtual === "Sim"}
+                          checked={
+                            respostaAtual === "Sim"
+                          }
                           onChange={(e) =>
-                            alterarResposta(pergunta.id, e.target.value)
+                            alterarResposta(
+                              pergunta.id,
+                              e.target.value
+                            )
                           }
                           className="w-4 h-4"/>
                         <span>Sim</span>
@@ -174,9 +226,14 @@ export default function FormularioAdocao() {
                           type="radio"
                           name={`pergunta-${pergunta.id}`}
                           value="Não"
-                          checked={respostaAtual === "Não"}
+                          checked={
+                            respostaAtual === "Não"
+                          }
                           onChange={(e) =>
-                            alterarResposta(pergunta.id, e.target.value)
+                            alterarResposta(
+                              pergunta.id,
+                              e.target.value
+                            )
                           }
                           className="w-4 h-4"/>
                         <span>Não</span>
@@ -186,7 +243,10 @@ export default function FormularioAdocao() {
                     <textarea
                       value={respostaAtual}
                       onChange={(e) =>
-                        alterarResposta(pergunta.id, e.target.value)
+                        alterarResposta(
+                          pergunta.id,
+                          e.target.value
+                        )
                       }
                       placeholder="Digite sua resposta..."
                       rows={4}
@@ -210,21 +270,38 @@ export default function FormularioAdocao() {
         </div>
       </div>
 
-      {mensagemErro && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white w-full max-w-md rounded-2xl p-8 text-center shadow-xl">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Não foi possível enviar
+      {popupAberto && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4">
+          <div className="w-full max-w-[420px] rounded-[25px] bg-white p-8 shadow-[0_10px_40px_rgba(0,0,0,0.25)] text-center">
+            <div
+              className={`mx-auto mb-5 flex h-[65px] w-[65px] items-center justify-center rounded-full text-3xl font-bold ${
+                tipoPopup === "sucesso"
+                  ? "bg-green-100 text-green-500"
+                  : tipoPopup === "erro"
+                  ? "bg-red-100 text-red-500"
+                  : "bg-yellow-100 text-yellow-500"
+              }`}>
+              {tipoPopup === "sucesso"
+                ? "✓"
+                : "!"}
+            </div>
+
+            <h2 className="text-2xl font-bold text-gray-800 mb-3">
+              {tipoPopup === "sucesso"
+                ? "Tudo certo!"
+                : tipoPopup === "erro"
+                ? "Ops!"
+                : "Atenção"}
             </h2>
 
-            <p className="text-gray-600 mb-6">
-              {mensagemErro}
+            <p className="text-gray-600 text-base leading-relaxed">
+              {mensagemPopup}
             </p>
 
             <button
               type="button"
-              onClick={() => setMensagemErro("")}
-              className="bg-[#36C3FF] hover:bg-[#22b5f2] text-white font-semibold px-6 py-3 rounded-xl transition">
+              onClick={fecharPopup}
+              className="mt-7 w-full h-[45px] rounded-[25px] bg-[#36C3FF] hover:bg-[#22b5f2] text-white font-semibold transition-colors">
               OK
             </button>
           </div>
