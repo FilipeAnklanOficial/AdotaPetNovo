@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
-
 import {
   Select,
   SelectContent,
@@ -9,12 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-
 import { apiService } from "@/services/ApiService";
 
 interface AnimalType {
@@ -28,10 +24,10 @@ interface AnimalType {
 
 const ListarAnimais = () => {
   const navigate = useNavigate();
-
   const [animais, setAnimais] = useState<AnimalType[]>([]);
   const [paginaAtual, setPaginaAtual] = useState(0);
   const [totalPaginas, setTotalPaginas] = useState(0);
+  const [aplicandoFiltros, setAplicandoFiltros] = useState(false);
 
   const [filtro, setFiltro] = useState({
     especie: "",
@@ -46,54 +42,54 @@ const ListarAnimais = () => {
   });
 
   const buscarAnimais = async (pagina = paginaAtual) => {
+    console.log("Aplicando filtros...");
+    setAplicandoFiltros(true);
 
-  console.log("Aplicando filtros...");
+    try {
+      const payload = {
+        especie: filtro.especie || null,
+        raca: filtro.raca || null,
+        sexo: filtro.sexo || null,
+        cor: filtro.cor || null,
+        idade: filtro.idade || null,
+        porte: filtro.porte || null,
+        possuiChip:
+          filtro.possuiChip === ""
+            ? null
+            : filtro.possuiChip === "true",
+        localizacao: filtro.localizacao || null,
+        vacinado:
+          filtro.vacinado === ""
+            ? null
+            : filtro.vacinado === "true",
+      };
 
-  try {
+      console.log("Payload enviado:", payload);
 
-    const payload = {
-      especie: filtro.especie || null,
-      raca: filtro.raca || null,
-      sexo: filtro.sexo || null,
-      cor: filtro.cor || null,
-      idade: filtro.idade || null,
-      porte: filtro.porte || null,
-      possuiChip:
-        filtro.possuiChip === ""
-          ? null
-          : filtro.possuiChip === "true",
-      localizacao: filtro.localizacao || null,
-      vacinado:
-        filtro.vacinado === ""
-          ? null
-          : filtro.vacinado === "true",
-    };
+      const response = await apiService.post(
+        `/animal/buscar?page=${pagina}&size=16`,
+        payload
+      );
 
-    console.log("Payload enviado:", payload);
+      console.log("Status:", response.status);
+      console.log("Resposta:", response.data);
 
-    const response = await apiService.post(
-      `/animal/buscar?page=${pagina}&size=16`,
-      payload
-    );
+      setAnimais(
+        response.data.content.map((pet: any) => ({
+          id: pet.id,
+          img: pet.fotos,
+          name: pet.nome,
+          gender: pet.especie,
+          porte: pet.porte,
+          local: pet.localizacao,
+        }))
+      );
 
-    console.log("Status:", response.status);
-    console.log("Resposta:", response.data);
-
-    setAnimais(
-      response.data.content.map((pet: any) => ({
-        id: pet.id,
-        img: pet.fotos,
-        name: pet.nome,
-        gender: pet.sexo,
-        porte: pet.porte,
-        local: pet.localizacao,
-      }))
-    );
-
-    setTotalPaginas(response.data.totalPages);
-
+      setTotalPaginas(response.data.totalPages);
     } catch (error) {
       console.error("Erro ao buscar animais com filtros:", error);
+    } finally {
+      setAplicandoFiltros(false);
     }
   };
 
@@ -109,7 +105,7 @@ const ListarAnimais = () => {
             id: pet.id,
             img: pet.fotos,
             name: pet.nome,
-            gender: pet.sexo,
+            gender: pet.especie,
             porte: pet.porte,
             local: pet.localizacao,
           }))
@@ -305,11 +301,14 @@ const ListarAnimais = () => {
 
             <Button
               className="w-full bg-[#36C3FF] hover:bg-[#2db0e8] text-white rounded-[30px] py-6"
+              disabled={aplicandoFiltros}
               onClick={() => {
                 setPaginaAtual(0);
                 buscarAnimais(0);
               }}>
-              Aplicar Filtros
+              {aplicandoFiltros
+                ? "Aplicando filtros..."
+                : "Aplicar Filtros"}
             </Button>
           </div>
         </aside>
@@ -334,7 +333,7 @@ const ListarAnimais = () => {
                   <div className="space-y-1 text-sm text-gray-600">
                     <p>
                       <span className="font-semibold text-gray-800">
-                        Gênero:
+                        Espécie:
                       </span>{" "}
                       {pet.gender}
                     </p>
@@ -357,6 +356,7 @@ const ListarAnimais = () => {
               </div>
             ))}
           </div>
+
           {totalPaginas > 1 && (
             <div className="flex justify-center items-center gap-2 mt-8">
               <Button
@@ -416,7 +416,6 @@ const FilterCard = ({
     <Label className="text-[#7085a0] text-[16px] mb-2 block">
       {label}
     </Label>
-
     {children}
   </Card>
 );
